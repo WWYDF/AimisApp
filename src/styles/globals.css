@@ -7,5 +7,5 @@
 body {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-  @apply text-white bg-zinc-950 w-full h-full bg-no-repeat min-h-screen min-w-[100vw] bg-fixed;
+  @apply text-white bg-gray-900 w-full h-full bg-no-repeat min-h-screen min-w-[100vw] bg-fixed;
 }

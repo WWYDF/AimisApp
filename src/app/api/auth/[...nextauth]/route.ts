@@ -14,7 +14,7 @@ const handler = NextAuth({
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID!,
       clientSecret: process.env.DISCORD_CLIENT_SECRET!,
-      authorization: { params: { scope: 'identify email' } },
+      authorization: { params: { scope: 'identify' } },
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
@@ -57,11 +57,27 @@ const handler = NextAuth({
     },    
 
     async session({ session, token }) {
-      if (token.sub) {
-        session.user.id = token.sub
+      if (!token.sub) return session
+    
+      const user = await prisma.user.findUnique({
+        where: { id: token.sub },
+        select: {
+          id: true,
+          username: true,
+          displayName: true,
+          avatar: true,
+        },
+      })
+    
+      if (user) {
+        session.user.id = user.id
+        session.user.username = user.username
+        session.user.displayName = user.displayName
+        session.user.avatar = user.avatar
       }
+    
       return session
-    },
+    }
   },
 })
 

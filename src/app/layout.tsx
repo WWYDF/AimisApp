@@ -2,6 +2,7 @@ import '@/styles/globals.css';
 import { Inter } from 'next/font/google';
 import { Metadata } from 'next';
 import AuthProvider from '@/components/clientSide/AuthProvider';
+import Navbar from '@/components/clientSide/Navbar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -31,6 +32,7 @@ export default function RootLayout({
       <body className={`${inter.className} min-h-screen flex flex-col`}>
         <main className="flex-grow">
           <AuthProvider>
+            <Navbar />
             {children}
           </AuthProvider>
         </main>
