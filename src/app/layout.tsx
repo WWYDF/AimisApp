@@ -1,6 +1,7 @@
 import '@/styles/globals.css';
 import { Inter } from 'next/font/google';
 import { Metadata } from 'next';
+import AuthProvider from '@/components/clientSide/AuthProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -29,7 +30,9 @@ export default function RootLayout({
       <head />
       <body className={`${inter.className} min-h-screen flex flex-col`}>
         <main className="flex-grow">
-          {children}
+          <AuthProvider>
+            {children}
+          </AuthProvider>
         </main>
       </body>
     </html>
