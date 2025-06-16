@@ -29,10 +29,10 @@ export default function Navbar() {
     <nav className="w-full h-16 bg-gray-950/40 border-b border-zinc-800 shadow-lg flex items-center px-4 sticky top-0" ref={navRef}>
       {/* Left: Logo */}
       <button
-        className="flex items-center gap-2 h-full"
+        className="flex items-center gap-2 h-full cursor-pointer"
         onClick={() => {
           router.push('/')
-          setOpenDropdown(null); // idk why this doesnt work, fix later
+          setOpenDropdown(null);
         }}
       >
         <Image
@@ -49,12 +49,16 @@ export default function Navbar() {
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex gap-6 items-center">
         
         {/* Home Button First (Baked) */}
-        <div className="flex items-center gap-1 p-2 cursor-pointer transition hover:shadow-xl">
-          <Link href='/' className="flex items-center gap-1 hover:text-accent transition-colors justify-between">
-            <House size={22} />
-            <span className="font-medium">Home</span>
-          </Link>
-        </div>
+        <button
+          className="flex items-center gap-1 hover:text-accent cursor-pointer transition-colors justify-between"
+          onClick={() => {
+            router.push('/')
+            setOpenDropdown(null);
+          }}
+        >
+          <House size={22} />
+          <span className="font-medium">Home</span>
+        </button>
 
         {/* Leaderboard (Baked) */}
         <button
