@@ -1,7 +1,9 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import ResultModal from './ResultModal'
+import { useConfetti } from '@/core/hooks/confetti'
 
 interface TriviaProps {
   trivia: {
@@ -15,7 +17,13 @@ interface TriviaProps {
 
 export default function TriviaClient({ trivia }: TriviaProps) {
   const [selected, setSelected] = useState<string | null>(null)
-  const [result, setResult] = useState<string | null>(null)
+  const [result, setResult] = useState<null | {
+    correct: boolean
+    correctAnswer: string
+  }>(null)
+
+  const [showModal, setShowModal] = useState(false)
+  const fireConfetti = useConfetti()
 
   const submitAnswer = async (choice: string) => {
     setSelected(choice)
@@ -27,7 +35,10 @@ export default function TriviaClient({ trivia }: TriviaProps) {
     })
 
     const data = await res.json()
-    setResult(data.correct ? '✅ Correct!' : `❌ Wrong. Correct answer: ${data.correctAnswer}`)
+    setResult({ correct: data.correct, correctAnswer: data.correctAnswer })
+    setShowModal(true)
+
+    if (data.correct) fireConfetti();
   }
 
   return (
@@ -47,22 +58,41 @@ export default function TriviaClient({ trivia }: TriviaProps) {
         <p>{trivia.question}</p>
       </div>
 
-      {trivia.choices?.map((choice) => (
-        <button
-          key={choice}
-          onClick={() => submitAnswer(choice)}
-          disabled={!!selected}
-          className={`w-full px-4 py-2 rounded cursor-pointer border transition ${
-            selected === choice
-              ? result?.includes('✅') ? 'bg-green-600 border-green-700' : 'bg-red-600 border-red-700'
-              : 'bg-zinc-800 hover:bg-zinc-700 border-zinc-700'
-          }`}
-        >
-          {choice}
-        </button>
-      ))}
+      {trivia.choices?.map((choice) => {
+        const isSelected = selected === choice
+        const isCorrect = result?.correctAnswer === choice
 
-      {result && <div className="mt-6 text-lg">{result}</div>}
+        let buttonClass = 'bg-zinc-800 hover:bg-zinc-700 border-zinc-700'
+
+        if (result) {
+          if (isSelected) {
+            buttonClass = result.correct
+              ? 'bg-green-600 border-green-700'
+              : 'bg-red-600 border-red-700'
+          } else if (isCorrect) {
+            buttonClass = 'bg-green-600 border-green-700'
+          }
+        }
+
+        return (
+          <button
+            key={choice}
+            onClick={() => submitAnswer(choice)}
+            disabled={!!selected}
+            className={`w-full px-4 py-2 rounded cursor-pointer border transition ${buttonClass}`}
+          >
+            {choice}
+          </button>
+        )
+      })}
+
+      <ResultModal
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        correct={result?.correct ?? false}
+        selected={selected ?? ''}
+        correctAnswer={result?.correctAnswer ?? ''}
+      />
     </div>
   )
 }
