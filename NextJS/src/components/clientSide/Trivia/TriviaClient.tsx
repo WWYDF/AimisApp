@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import ResultModal from './ResultModal'
 import { useConfetti } from '@/core/hooks/confetti'
+import { useToast } from '../Toast'
 
 interface TriviaProps {
   trivia: {
@@ -24,21 +25,29 @@ export default function TriviaClient({ trivia }: TriviaProps) {
 
   const [showModal, setShowModal] = useState(false)
   const fireConfetti = useConfetti()
+  const toast = useToast();
 
   const submitAnswer = async (choice: string) => {
     setSelected(choice)
-
+  
     const res = await fetch('/api/trivia', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: trivia.id, answer: choice }),
     })
-
+  
+    if (res.status === 409) {
+      toast('You have already attempted this today!', 'error');
+      setSelected(null) // optional: allow retry UI
+      return
+    }
+  
     const data = await res.json()
+  
     setResult({ correct: data.correct, correctAnswer: data.correctAnswer })
     setShowModal(true)
-
-    if (data.correct) fireConfetti();
+  
+    if (data.correct) fireConfetti()
   }
 
   return (

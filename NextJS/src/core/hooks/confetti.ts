@@ -1,4 +1,3 @@
-// hooks/useConfetti.ts
 import confetti from 'canvas-confetti'
 
 export function useConfetti(anchorId = 'confetti-anchor') {

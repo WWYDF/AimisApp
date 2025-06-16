@@ -4,6 +4,7 @@ import { Metadata } from 'next';
 import AuthProvider from '@/components/clientSide/AuthProvider';
 import Navbar from '@/components/clientSide/Navbar';
 import Footer from '@/components/clientSide/Footer';
+import { ToastProvider } from '@/components/clientSide/Toast';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -34,7 +35,9 @@ export default function RootLayout({
         <main className="flex-grow">
           <AuthProvider>
             <Navbar />
-            {children}
+              <ToastProvider>
+                {children}
+              </ToastProvider>
           </AuthProvider>
         </main>
         <Footer />

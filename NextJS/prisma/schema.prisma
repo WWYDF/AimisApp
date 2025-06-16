@@ -8,12 +8,44 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Games {
+  TRIVIA
+  OMEGLE
+}
+
 model User {
   id                    String                @id @unique
   username              String
   displayName           String?
   avatar                String?
 
+  // Game Stuff
+  points                Int                   @default(0)
+  games                 Completed[]
+  streakTrivia          Int                   @default(0)
+  streakOmegle          Int                   @default(0)
+  pointsHistory         PointsHistory[]
+
   lastSeen              DateTime              @default(now())
   createdAt             DateTime              @default(now())
+
+  @@index([points])
+}
+
+model Completed {
+  id                    Int                   @id @default(autoincrement())
+  type                  Games
+  discordId             String
+  user                  User                  @relation(fields: [discordId], references: [id])
+  completedAt           DateTime              @default(now())
+}
+
+model PointsHistory {
+  id                    Int                   @id @default(autoincrement())
+  createdAt             DateTime              @default(now())
+  points                Int                   @default(0)
+  discordId             String
+  user                  User                  @relation(fields: [discordId], references: [id])
+
+  @@unique([createdAt, discordId])
 }

@@ -7,11 +7,13 @@ import { ArrowSquareOut, CaretDown, ChartBar, House, UserCircle } from 'phosphor
 import { NavItems, NavLinkItem } from "@/core/objects/NavItems";
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from 'next/navigation'
 
 export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const navRef = useRef<HTMLDivElement>(null);
   const { data: session } = useSession()
+  const router = useRouter();
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -26,36 +28,45 @@ export default function Navbar() {
   return (
     <nav className="w-full h-16 bg-gray-950/40 border-b border-zinc-800 shadow-lg flex items-center px-4 sticky top-0" ref={navRef}>
       {/* Left: Logo */}
-      <div className="flex items-center gap-2 h-full">
-        <Link href="/" className="flex items-center gap-2 h-full">
-          <Image
-            src="/i/misc/logo.webp"
-            alt="App"
-            width={48}
-            height={48}
-            className="rounded"
-          />
-          <span className="text-white font-bold text-lg">Aimi's App</span>
-        </Link>
-      </div>
+      <button
+        className="flex items-center gap-2 h-full"
+        onClick={() => {
+          router.push('/')
+          setOpenDropdown(null); // idk why this doesnt work, fix later
+        }}
+      >
+        <Image
+          src="/i/misc/logo.webp"
+          alt="App"
+          width={48}
+          height={48}
+          className="rounded"
+        />
+        <span className="text-white font-bold text-lg">Aimi's App</span>
+      </button>
 
       {/* Center: NavItems */}
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex gap-6 items-center">
+        
         {/* Home Button First (Baked) */}
         <div className="flex items-center gap-1 p-2 cursor-pointer transition hover:shadow-xl">
-          <div className="flex items-center gap-1 hover:text-accent transition-colors justify-between">
+          <Link href='/' className="flex items-center gap-1 hover:text-accent transition-colors justify-between">
             <House size={22} />
             <span className="font-medium">Home</span>
-          </div>
+          </Link>
         </div>
 
         {/* Leaderboard (Baked) */}
-        <div className="flex items-center cursor-pointer transition hover:shadow-xl">
-          <div className="flex items-center gap-1 hover:text-accent transition-colors justify-between">
-            <ChartBar size={22} />
-            <span className="font-medium">Leaderboard</span>
-          </div>
-        </div>
+        <button
+          className="flex items-center gap-1 hover:text-accent cursor-pointer transition-colors justify-between"
+          onClick={() => {
+            router.push('/leaderboard')
+            setOpenDropdown(null);
+          }}
+        >
+          <ChartBar size={22} />
+          <span className="font-medium">Leaderboard</span>
+        </button>
 
         {NavItems.map((item, i) => {
           if (item.type === "link") {
@@ -96,7 +107,7 @@ export default function Navbar() {
                       className="absolute left-0 top-full mt-2 w-max min-w-[28rem] bg-zinc-950 border border-zinc-900 rounded shadow-lg z-50 p-3 grid grid-cols-2 gap-2"
                     >
                       {item.items.map((sub, j) => (
-                        <NavLink key={j} item={sub} isDropdown />
+                        <NavLink key={j} item={sub} isDropdown closeDropdown={() => setOpenDropdown(null)} />
                       ))}
                     </motion.div>
                   )}
@@ -136,36 +147,32 @@ function isImage(icon?: any): icon is string {  return typeof icon === "string" 
 function NavLink({
   item,
   isDropdown = false,
+  closeDropdown,
 }: {
   item: NavLinkItem;
   isDropdown?: boolean;
+  closeDropdown?: () => void;
 }) {
+  const router = useRouter();
+
   const content = (
-    <div className="flex items-center gap-1 p-2 rounded hover:bg-zinc-800 transition hover:shadow-xl">
-      <div className="w-8 h-8 flex items-center justify-center rounded">
-        {item.icon &&
-          (isImage(item.icon) ? (
-            <img
-              src={item.icon}
-              alt={item.name}
-              className="w-6 h-6 object-contain"
-            />
+    <div className="flex gap-3 p-2 rounded hover:bg-zinc-800 transition cursor-pointer hover:shadow-xl text-left">
+      {/* Icon */}
+      <div className="w-8 h-8 flex items-center justify-center self-center shrink-0">
+        {item.icon && (
+          isImage(item.icon) ? (
+            <img src={item.icon} alt={item.name} className="w-6 h-6 object-contain" />
           ) : (
             <item.icon size={22} />
-          ))}
+          )
+        )}
       </div>
 
-      <div className="flex-1">
-        <div className="flex items-center justify-between">
-          <span className="font-medium">{item.name}</span>
-          {item.external && (
-            <ArrowSquareOut size={14} className="ml-2 opacity-70" />
-          )}
-        </div>
+      {/* Text */}
+      <div className="flex flex-col justify-center">
+        <span className="font-medium text-sm leading-snug">{item.name}</span>
         {item.description && (
-          <p className="text-sm text-zinc-400 leading-tight">
-            {item.description}
-          </p>
+          <span className="text-zinc-400 text-xs leading-snug">{item.description}</span>
         )}
       </div>
     </div>
@@ -185,8 +192,14 @@ function NavLink({
   }
 
   return (
-    <Link href={item.href} className="block">
+    <button
+      className="block"
+      onClick={() => {
+        router.push(item.href)
+        if (closeDropdown) closeDropdown()
+      }}
+    >
       {content}
-    </Link>
+    </button>
   );
 }

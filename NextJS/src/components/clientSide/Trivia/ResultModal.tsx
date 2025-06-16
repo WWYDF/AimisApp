@@ -55,7 +55,7 @@ export default function ResultModal({ isOpen, onClose, correct, selected, correc
               )}
 
               <p className="text-lg text-white">
-                {correct ? `✅ ${selected} was the correct answer.` : `❌ You picked ${selected}, but the correct answer was ${correctAnswer}.`}
+                {correct ? `'${selected}' was the correct answer.` : `You picked '${selected}', but the correct answer was '${correctAnswer}'.`}
               </p>
 
               {/* Future confetti area — will be added behind this div */}
