@@ -6,6 +6,7 @@ interface TriviaQuestion {
   type: TriviaType
   correct: string
   choices?: string[] // only present for multiple choice
+  image?: string
 }
 
 export const TriviaQuestions: TriviaQuestion[] = [
@@ -22,5 +23,6 @@ export const TriviaQuestions: TriviaQuestion[] = [
     type: 'multiple',
     correct: 'Rasmus',
     choices: ['X', 'Kai', 'Juliette', 'Rasmus'],
+    image: '/i/character/timeline/Estelle.webp'
   },
 ]
