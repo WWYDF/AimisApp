@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import { Metadata } from 'next';
 import AuthProvider from '@/components/clientSide/AuthProvider';
 import Navbar from '@/components/clientSide/Navbar';
+import Footer from '@/components/clientSide/Footer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -34,6 +35,7 @@ export default function RootLayout({
           <AuthProvider>
             <Navbar />
             {children}
+            <Footer />
           </AuthProvider>
         </main>
       </body>
