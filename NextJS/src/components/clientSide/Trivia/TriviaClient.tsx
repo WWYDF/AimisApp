@@ -5,6 +5,7 @@ import { useState } from 'react'
 import ResultModal from './ResultModal'
 import { useConfetti } from '@/core/hooks/confetti'
 import { useToast } from '../Toast'
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface TriviaEntry {
   id: number
@@ -12,6 +13,7 @@ interface TriviaEntry {
   type: 'boolean' | 'multiple'
   choices: string[]
   image?: string
+  hint?: boolean
 }
 
 interface TriviaClientProps {
@@ -28,6 +30,8 @@ export default function TriviaClient({ triviaList, initialIndex }: TriviaClientP
   }>(null)
   const [showModal, setShowModal] = useState(false)
   const [gameOver, setGameOver] = useState(false)
+  const [hasViewedHint, setHasViewedHint] = useState(false)
+  const [showHintModal, setShowHintModal] = useState(false)
 
   const toast = useToast()
   const fireConfetti = useConfetti()
@@ -41,7 +45,7 @@ export default function TriviaClient({ triviaList, initialIndex }: TriviaClientP
     const res = await fetch('/api/trivia', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ questionId: currentQuestion.id, answer: choice, continue: true }),
+      body: JSON.stringify({ questionId: currentQuestion.id, answer: choice, usedHint: hasViewedHint }),
     })
 
     if (res.status === 409) {
@@ -72,6 +76,20 @@ export default function TriviaClient({ triviaList, initialIndex }: TriviaClientP
   const handleStop = () => {
     setShowModal(false)
   }
+
+  async function submitHintView() {
+    if (!currentQuestion) return
+  
+    await fetch('/api/trivia/hint', {
+      method: 'POST',
+      body: JSON.stringify({
+        questionId: currentQuestion.id,
+      }),
+    })
+  
+    setHasViewedHint(true)
+    setShowHintModal(false)
+  }
   
 
   if (gameOver) {
@@ -85,7 +103,18 @@ export default function TriviaClient({ triviaList, initialIndex }: TriviaClientP
 
   return (
     <div className="max-w-xl mx-auto mt-10 text-white text-center space-y-4">
-      {currentQuestion.image && (
+      {currentQuestion.image && currentQuestion.hint && !hasViewedHint ? (
+        <div className="relative w-full max-w-md mx-auto">
+          <div className="bg-zinc-900 border border-zinc-700 p-4 rounded-lg">
+            <button
+              onClick={() => setShowHintModal(true)}
+              className="bg-accent/80 hover:bg-accent/60 transition cursor-pointer px-4 py-2 rounded font-semibold"
+            >
+              Show Hint
+            </button>
+          </div>
+        </div>
+      ) : currentQuestion.image ? (
         <Image
           src={currentQuestion.image}
           alt="Trivia image"
@@ -93,7 +122,7 @@ export default function TriviaClient({ triviaList, initialIndex }: TriviaClientP
           height={300}
           className="mx-auto rounded-lg"
         />
-      )}
+      ) : null}
 
       <div className="text-lg font-semibold my-6">
         <p>{currentQuestion.question}</p>
@@ -137,6 +166,47 @@ export default function TriviaClient({ triviaList, initialIndex }: TriviaClientP
         onStop={handleStop}
         isFinal={questionIndex === triviaList.length - 1}
       />
+
+
+      <AnimatePresence>
+        {showHintModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 flex items-center justify-center backdrop-blur-xs bg-black/60 z-50"
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="bg-zinc-900 text-white p-6 rounded-lg max-w-sm text-center space-y-4 border-2 border-zinc-800"
+            >
+              <h2 className="text-xl font-bold text-accent">Reveal Hint?</h2>
+              <p className="text-sm text-zinc-300">
+                Viewing this hint will reduce your maximum possible points by <strong>75%</strong> for this question. <br /><br />
+                <a className='text-red-400'>Penalties will remain unaffected.</a>
+              </p>
+              <div className="flex justify-center gap-4 mt-4">
+                <button
+                  onClick={submitHintView}
+                  className="px-4 py-2 bg-accent/80 hover:bg-accent/60 transition cursor-pointer rounded font-medium"
+                >
+                  Reveal
+                </button>
+                <button
+                  onClick={() => setShowHintModal(false)}
+                  className="px-4 py-2 bg-zinc-600 hover:bg-zinc-700 transition cursor-pointer rounded font-medium"
+                >
+                  Cancel
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </div>
   )
 }

@@ -32,12 +32,13 @@ export default async function TriviaPage() {
   const data = await res.json()
   if (!Array.isArray(data)) throw new Error('Invalid trivia format')
 
-  const triviaList = data.map(({ id, question, type, choices, image }) => ({
+  const triviaList = data.map(({ id, question, type, choices, image, hint }) => ({
     id,
     question,
     type,
     choices,
     image,
+    hint
   }))
 
   const sessionEntry = await prisma.triviaSessions.findFirst({

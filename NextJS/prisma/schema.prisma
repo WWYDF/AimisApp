@@ -60,5 +60,6 @@ model TriviaSessions {
   correct               Boolean?              // If its null, its pending vvv
   answered              String?               // If its null, they haven't answered yet
   points                Int?
+  hintUsed              Boolean               @default(false)
   createdAt             DateTime              @default(now())
 }

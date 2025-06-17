@@ -65,26 +65,36 @@ export default function ResultModal({
                 </div>
               )}
 
-              <p className="text-lg text-white">
-                {correct
-                  ? `'${selected}' was the correct answer.`
-                  : `You picked '${selected}', but the correct answer was '${correctAnswer}'.`}
+              <p className="text-lg text-zinc-400 whitespace-pre-line">
+                {correct ? (
+                  <>
+                    <b>'{selected}'</b> <br />
+                    <i>...was the right answer.</i>
+                  </>
+                ) : (
+                  <>
+                    You picked <br />
+                    <a className='font-bold text-red-400'>{selected}</a> <br /><br />
+                    But the correct answer was<br />
+                    <a className='font-bold text-green-400'>{correctAnswer}</a>.
+                  </>
+                )}
               </p>
 
               {/* Button area */}
               <div className="flex justify-center gap-4 mt-4">
                 <button
                   onClick={onStop}
-                  className="px-4 py-2 rounded bg-zinc-800 border border-zinc-700 hover:bg-zinc-700 text-white"
+                  className="px-4 py-2 rounded bg-zinc-800 border border-zinc-700 hover:bg-zinc-700 transition cursor-pointer text-white"
                 >
-                  Collect Rewards
+                  Close
                 </button>
                 {correct && !isFinal && (
                   <button
                     onClick={onContinue}
-                    className="px-4 py-2 rounded bg-green-700 border border-green-800 hover:bg-green-600 text-white"
+                    className="px-4 py-2 rounded bg-green-700 border border-green-800 hover:bg-green-600 transition cursor-pointer text-white"
                   >
-                    Double or Nothing
+                    Double or Negative
                   </button>
                 )}
               </div>

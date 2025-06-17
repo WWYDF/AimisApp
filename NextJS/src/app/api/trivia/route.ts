@@ -77,6 +77,10 @@ export async function POST(req: NextRequest) {
     if (isCorrect) {
       pointsDelta = rewardMeta.reward
 
+      if (sessionEntry.hintUsed) {
+        pointsDelta = Math.floor(pointsDelta * 0.25)
+      }
+
       await prisma.user.update({
         where: { id: userId },
         data: { points: user.points + pointsDelta },
@@ -92,6 +96,7 @@ export async function POST(req: NextRequest) {
           correct: true,
           answered: answer,
           question: currentQuestionNumber + 1,
+          hintUsed: false,
         },
       })
 

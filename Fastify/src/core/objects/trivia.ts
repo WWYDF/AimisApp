@@ -7,6 +7,7 @@ interface TriviaQuestion {
   correct: string
   choices?: string[] // only present for multiple choice
   image?: string
+  hint?: boolean
   tier: 1 | 2 | 3 | 4 | 5;
 }
 
