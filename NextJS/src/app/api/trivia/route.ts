@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
 
     if (latestCompletion) {
       const completedToday = isToday(latestCompletion.completedAt);
-      if (completedToday) { return new Response(JSON.stringify({ error: 'You already completed this today!' }), { status: 409 }) }
+      if (completedToday && !process.env.DEV_MODE) { return new Response(JSON.stringify({ error: 'You already completed this today!' }), { status: 409 }) }
     }
 
     

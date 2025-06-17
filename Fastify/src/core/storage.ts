@@ -4,7 +4,7 @@ import path from 'path'
 const filePath = path.join(process.cwd(), 'data', 'storage.json')
 
 type StorageData = {
-  current: number | null
+  current: number[] | null;
 }
 
 const defaultData: StorageData = {
@@ -35,13 +35,13 @@ function save(data: StorageData) {
 
 let data: StorageData = load()
 
-export function getCurrentTrivia(): number | null {
-  return data.current
+export function getCurrentTrivia(): number[] | null {
+  return data.current;
 }
 
-export function setCurrentTrivia(id: number): void {
-  data.current = id
-  save(data)
+export function setCurrentTrivia(ids: number[]): void {
+  data.current = ids;
+  save(data);
 }
 
 export function clearCurrentTrivia(): void {

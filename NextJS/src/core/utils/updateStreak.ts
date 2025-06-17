@@ -54,12 +54,5 @@ export async function updateDailyStreak<T extends 'streakTrivia' | 'streakOmegle
     },
   })
 
-  await prisma.completed.create({
-    data: {
-      type,
-      discordId: userId,
-    },
-  })
-
   return { alreadyCompleted: false, updatedStreak: newStreak }
 }

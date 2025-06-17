@@ -1,4 +1,4 @@
-import { Cloud, Database, DiscordLogo, Flask, GameController, HardDrive, House, HouseLine, Icon, Question } from "phosphor-react";
+import { GameController, Icon } from "phosphor-react";
 
 export type NavLinkItem = {
   type: "link";
@@ -26,17 +26,17 @@ export const NavItems: NavItem[] = [
     items: [
       {
         type: "link",
-        name: "Trivia",
+        name: "Daily Trivia",
         icon: "/i/games/trivia.png",
         href: "/trivia",
-        description: "Flavor Text",
+        description: "Double or Negative",
       },
       {
         type: "link",
         name: "Omegle",
         icon: "/i/games/omegle.png",
-        href: "/omegle",
-        description: "Flavor Text",
+        href: "#",
+        description: "Coming Soon",
       },
     ],
   },
