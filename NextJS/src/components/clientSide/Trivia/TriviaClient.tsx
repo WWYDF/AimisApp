@@ -1,62 +1,94 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import ResultModal from './ResultModal'
 import { useConfetti } from '@/core/hooks/confetti'
 import { useToast } from '../Toast'
 
-interface TriviaProps {
-  trivia: {
-    id: string
-    question: string
-    type: 'text' | 'multiple'
-    choices?: string[]
-    image?: string
-  }
+interface TriviaEntry {
+  id: number
+  question: string
+  type: 'boolean' | 'multiple'
+  choices: string[]
+  image?: string
 }
 
-export default function TriviaClient({ trivia }: TriviaProps) {
+interface TriviaClientProps {
+  triviaList: TriviaEntry[]
+  initialIndex?: number
+}
+
+export default function TriviaClient({ triviaList, initialIndex }: TriviaClientProps) {
+  const [questionIndex, setQuestionIndex] = useState(initialIndex ?? 0)
   const [selected, setSelected] = useState<string | null>(null)
   const [result, setResult] = useState<null | {
     correct: boolean
     correctAnswer: string
   }>(null)
-
   const [showModal, setShowModal] = useState(false)
+  const [gameOver, setGameOver] = useState(false)
+
+  const toast = useToast()
   const fireConfetti = useConfetti()
-  const toast = useToast();
+  const currentQuestion = triviaList[questionIndex]
 
   const submitAnswer = async (choice: string) => {
+    if (!currentQuestion) return
+
     setSelected(choice)
-  
+
     const res = await fetch('/api/trivia', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: trivia.id, answer: choice }),
+      body: JSON.stringify({ questionId: currentQuestion.id, answer: choice, continue: true }),
     })
-  
+
     if (res.status === 409) {
-      toast('You have already attempted this today!', 'error');
-      setSelected(null) // optional: allow retry UI
+      toast('You have already attempted this today!', 'error')
+      setSelected(null)
       return
     }
-  
+
     const data = await res.json()
-  
     setResult({ correct: data.correct, correctAnswer: data.correctAnswer })
     setShowModal(true)
-  
+
     if (data.correct) fireConfetti()
   }
 
+  const handleNext = () => {
+    if (questionIndex + 1 >= triviaList.length) {
+      setGameOver(true)
+      return
+    }
+
+    setQuestionIndex((prev) => prev + 1)
+    setSelected(null)
+    setResult(null)
+    setShowModal(false)
+  }
+
+  const handleStop = () => {
+    setShowModal(false)
+  }
+  
+
+  if (gameOver) {
+    return (
+      <div className="max-w-xl mx-auto mt-10 text-white text-center">
+        <h1 className="text-2xl font-bold text-red-400">Game Over</h1>
+        <p className="text-lg mt-4">You finished with {questionIndex} correct answer{questionIndex !== 1 ? 's' : ''}!</p>
+      </div>
+    )
+  }
+
   return (
-    <div className="max-w-xl mx-auto mt-10 text-white text-center space-y-3">
-      {trivia.image && (
+    <div className="max-w-xl mx-auto mt-10 text-white text-center space-y-4">
+      {currentQuestion.image && (
         <Image
-          src={trivia.image}
+          src={currentQuestion.image}
           alt="Trivia image"
-          title={trivia.image.split('/').pop()?.split('.')[0]}
           width={400}
           height={300}
           className="mx-auto rounded-lg"
@@ -64,10 +96,10 @@ export default function TriviaClient({ trivia }: TriviaProps) {
       )}
 
       <div className="text-lg font-semibold my-6">
-        <p>{trivia.question}</p>
+        <p>{currentQuestion.question}</p>
       </div>
 
-      {trivia.choices?.map((choice) => {
+      {currentQuestion.choices.map((choice) => {
         const isSelected = selected === choice
         const isCorrect = result?.correctAnswer === choice
 
@@ -101,6 +133,9 @@ export default function TriviaClient({ trivia }: TriviaProps) {
         correct={result?.correct ?? false}
         selected={selected ?? ''}
         correctAnswer={result?.correctAnswer ?? ''}
+        onContinue={handleNext}
+        onStop={handleStop}
+        isFinal={questionIndex === triviaList.length - 1}
       />
     </div>
   )

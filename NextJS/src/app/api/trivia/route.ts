@@ -1,93 +1,154 @@
-import { auth } from '@/components/serverSide/authenticate';
+import { auth } from '@/components/serverSide/authenticate'
 import { NextRequest } from 'next/server'
 import { prisma } from '@/core/prisma'
-import { isToday } from '@/core/utils/dates';
-import { updateDailyStreak } from '@/core/utils/updateStreak';
-
-const winPoints = 50;
-const lossPoints = 25;
+import { updateDailyStreak } from '@/core/utils/updateStreak'
 
 export async function POST(req: NextRequest) {
-  const session = await auth();
-  const body = await req.json()
-  const { id, answer } = body
+  const session = await auth()
+  if (!session) return new Response(JSON.stringify({ error: 'Not signed in' }), { status: 401 })
 
-  if (!session) { return new Response(JSON.stringify({ error: 'Not signed in' }), { status: 401 }) }
-  if (!id || !answer) { return new Response(JSON.stringify({ error: 'Missing id or answer' }), { status: 400 }) }
+  const { questionId, answer } = await req.json()
+  if (!questionId || !answer) {
+    return new Response(JSON.stringify({ error: 'Missing questionId or answer' }), { status: 400 })
+  }
 
   try {
-    // Check if user has already submitted today.
-    const latestCompletion = await prisma.completed.findFirst({
+    const userId = session.user.id
+
+    const triviaRes = await fetch(`${process.env.FASTIFY_URL}/v1/trivia`)
+    if (!triviaRes.ok) {
+      return new Response(JSON.stringify({ error: 'Failed to fetch trivia data' }), { status: 502 })
+    }
+
+    const triviaData = await triviaRes.json()
+    const questionList = Array.isArray(triviaData) ? triviaData : []
+    const currentQuestionIndex = questionList.findIndex((q: any) => q.id === questionId)
+    if (currentQuestionIndex === -1) {
+      return new Response(JSON.stringify({ error: 'Invalid question ID' }), { status: 400 })
+    }
+    const currentQuestion = questionList[currentQuestionIndex]
+
+    const user = await prisma.user.findUnique({ where: { id: userId } })
+    if (!user) return new Response(JSON.stringify({ error: 'User not found' }), { status: 404 })
+
+    // Get current session row (or create one)
+    let sessionEntry = await prisma.triviaSessions.findFirst({
       where: {
-        discordId: session.user.id,
-        type: 'TRIVIA',
+        discordId: userId,
+        createdAt: { gte: new Date(new Date().setHours(0, 0, 0, 0)) },
       },
-      orderBy: { completedAt: 'desc' },
     })
 
-    if (latestCompletion) {
-      const completedToday = isToday(latestCompletion.completedAt);
-      if (completedToday && !process.env.DEV_MODE) { return new Response(JSON.stringify({ error: 'You already completed this today!' }), { status: 409 }) }
+    if (!sessionEntry) {
+      sessionEntry = await prisma.triviaSessions.create({
+        data: {
+          discordId: userId,
+          question: 1,
+          correct: null,
+          answered: null,
+        },
+      })
     }
 
-    
-    // Alright, they have not completed today's trivia. Continue.
-    const res = await fetch(`${process.env.FASTIFY_URL}/v1/trivia`, { cache: 'no-store' })
-    if (!res.ok) { return new Response(JSON.stringify({ error: 'Failed to fetch trivia' }), { status: 502 }) }
+    const currentQuestionNumber = sessionEntry.question
+    const isCorrect = currentQuestion.correct === answer
 
-    const current = await res.json()
-    if (current.id !== id) { return new Response(JSON.stringify({ error: 'Stale trivia question' }), { status: 409 }) }
+    console.log(currentQuestionNumber);
 
-    const correct = current.correct === answer
-    const currentUser = await prisma.user.findUnique({ where: { id: session.user.id } });
-    let totalPoints = 0; // Gets altered below.
-
-    if (correct) {
-      totalPoints = currentUser!.points + winPoints;
-
-      // Give Points
-      await prisma.user.update({
-        where: { id: session.user.id },
-        data: { points: totalPoints }
-      });
-
-      // Calculate Streak
-      await updateDailyStreak({userId: session.user.id, type: 'TRIVIA', streakField: 'streakTrivia'});
-    } else if (!correct) { // I know this (if) is redunant, i dont care lol
-      totalPoints = currentUser!.points - lossPoints;
-
-      // Remove streak & remove points
-      await prisma.user.update({
-        where: { id: session.user.id },
-        data: { streakTrivia: 1, points: totalPoints }
-      });
+    // Additive
+    const rewardTable = {
+      1: { reward: 50, penalty: -25 },
+      2: { reward: 50, penalty: -150 },
+      3: { reward: 100, penalty: -300 },
+      4: { reward: 200, penalty: -600 },
+      5: { reward: 400, penalty: -1200 },
     }
 
-    // Regardless of outcome, log points changes:
-    await prisma.pointsHistory.create({
-      data: {
-        points: totalPoints,
-        discordId: session.user.id
-      }
-    });
+    const rewardMeta = rewardTable[currentQuestionNumber as 1 | 2 | 3 | 4 | 5]
+    if (!rewardMeta) {
+      return new Response(JSON.stringify({ error: 'Invalid question number' }), { status: 400 })
+    }
 
-    // ...and add entry to prevent other attempts for today:
-    await prisma.completed.create({
-      data: {
-        type: 'TRIVIA',
-        discordId: session.user.id
-      }
-    })
+    console.log(`Reward: ${rewardMeta.reward}`);
 
-    // Return Response
+    let pointsDelta = 0
+    let completed = false
+
+    if (isCorrect) {
+      pointsDelta = rewardMeta.reward
+
+      await prisma.user.update({
+        where: { id: userId },
+        data: { points: user.points + pointsDelta },
+      })
+
+      await prisma.pointsHistory.create({
+        data: { discordId: userId, points: user.points + pointsDelta },
+      })
+
+      await prisma.triviaSessions.update({
+        where: { id: sessionEntry.id },
+        data: {
+          correct: true,
+          answered: answer,
+          question: currentQuestionNumber + 1,
+        },
+      })
+
+      if (currentQuestionNumber === 1) {
+        await updateDailyStreak({
+          userId,
+          type: 'TRIVIA',
+          streakField: 'streakTrivia',
+        })
+      }
+
+      if (currentQuestionNumber === 5) {
+        completed = true
+        await prisma.completed.create({
+          data: { discordId: userId, type: 'TRIVIA' },
+        })
+      }
+    } else {
+      pointsDelta = rewardMeta.penalty
+
+      await prisma.user.update({
+        where: { id: userId },
+        data: {
+          points: user.points + pointsDelta,
+          streakTrivia: 0,
+        },
+      })
+
+      await prisma.pointsHistory.create({
+        data: { discordId: userId, points: user.points + pointsDelta },
+      })
+
+      await prisma.triviaSessions.update({
+        where: { id: sessionEntry.id },
+        data: {
+          correct: false,
+          answered: answer,
+        },
+      })
+
+      completed = true
+      await prisma.completed.create({
+        data: { discordId: userId, type: 'TRIVIA' },
+      })
+    }
+
     return new Response(
       JSON.stringify({
-        correct,
-        correctAnswer: correct ? undefined : current.correct,
+        correct: isCorrect,
+        correctAnswer: currentQuestion.correct,
+        completed,
+        pointsEarned: pointsDelta,
       }),
       { status: 200 }
     )
   } catch (err) {
-    return new Response(JSON.stringify({ error: `${err}` }), { status: 500 })
+    console.error('Trivia POST error:', err)
+    return new Response(JSON.stringify({ error: 'Server error' }), { status: 500 })
   }
 }

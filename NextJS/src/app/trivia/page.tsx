@@ -1,15 +1,55 @@
 import TriviaClient from "@/components/clientSide/Trivia/TriviaClient"
+import { auth } from "@/components/serverSide/authenticate";
+import { redirect } from "next/navigation";
+import { prisma } from "@/core/prisma"
+import { isToday } from "date-fns";
 
 export default async function TriviaPage() {
+  const session = await auth()
+  if (!session) redirect('/')
+
+  const userId = session.user.id
+
+  const lastComp = await prisma.completed.findFirst({
+    where: { discordId: userId, type: 'TRIVIA' },
+    orderBy: { completedAt: 'desc' },
+  })
+
+  if (lastComp && isToday(lastComp.completedAt)) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <h1 className="text-4xl font-bold">You have already played today!</h1>
+      </div>
+    )
+  }
+
   const res = await fetch('http://localhost:12244/v1/trivia', {
     cache: 'no-store',
   })
 
   if (!res.ok) throw new Error('Failed to fetch trivia')
 
-  const { id, question, type, choices, image } = await res.json()
+  const data = await res.json()
+  if (!Array.isArray(data)) throw new Error('Invalid trivia format')
 
+  const triviaList = data.map(({ id, question, type, choices, image }) => ({
+    id,
+    question,
+    type,
+    choices,
+    image,
+  }))
+
+  const sessionEntry = await prisma.triviaSessions.findFirst({
+    where: {
+      discordId: userId,
+      createdAt: { gte: new Date(new Date().setHours(0, 0, 0, 0)) },
+    },
+  })
+  
+  const currentIndex = sessionEntry?.question ? sessionEntry.question - 1 : 0
+  
   return (
-    <TriviaClient trivia={{ id, question, type, choices, image }} />
+    <TriviaClient triviaList={triviaList} initialIndex={currentIndex} />
   )
 }

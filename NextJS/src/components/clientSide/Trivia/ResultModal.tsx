@@ -1,4 +1,3 @@
-// components/ResultModal.tsx
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
@@ -11,9 +10,21 @@ interface ResultModalProps {
   correct: boolean
   selected: string
   correctAnswer: string
+  onContinue: () => void
+  onStop: () => void
+  isFinal: boolean
 }
 
-export default function ResultModal({ isOpen, onClose, correct, selected, correctAnswer }: ResultModalProps) {
+export default function ResultModal({
+  isOpen,
+  onClose,
+  correct,
+  selected,
+  correctAnswer,
+  onContinue,
+  onStop,
+  isFinal
+}: ResultModalProps) {
   const imagePath = getCharacterPath(correct ? selected : correctAnswer)
 
   return (
@@ -55,18 +66,31 @@ export default function ResultModal({ isOpen, onClose, correct, selected, correc
               )}
 
               <p className="text-lg text-white">
-                {correct ? `'${selected}' was the correct answer.` : `You picked '${selected}', but the correct answer was '${correctAnswer}'.`}
+                {correct
+                  ? `'${selected}' was the correct answer.`
+                  : `You picked '${selected}', but the correct answer was '${correctAnswer}'.`}
               </p>
 
-              {/* Future confetti area — will be added behind this div */}
-              <div id="confetti-anchor" className="absolute inset-0 -z-10" />
+              {/* Button area */}
+              <div className="flex justify-center gap-4 mt-4">
+                <button
+                  onClick={onStop}
+                  className="px-4 py-2 rounded bg-zinc-800 border border-zinc-700 hover:bg-zinc-700 text-white"
+                >
+                  Collect Rewards
+                </button>
+                {correct && !isFinal && (
+                  <button
+                    onClick={onContinue}
+                    className="px-4 py-2 rounded bg-green-700 border border-green-800 hover:bg-green-600 text-white"
+                  >
+                    Double or Nothing
+                  </button>
+                )}
+              </div>
 
-              <button
-                onClick={onClose}
-                className="mt-2 px-4 py-2 rounded cursor-pointer transition bg-zinc-800 hover:bg-zinc-700 border border-zinc-800 text-white"
-              >
-                Close
-              </button>
+              {/* Confetti layer */}
+              <div id="confetti-anchor" className="absolute inset-0 -z-10" />
             </div>
           </motion.div>
         </>

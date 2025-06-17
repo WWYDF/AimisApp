@@ -22,6 +22,7 @@ model User {
   // Game Stuff
   points                Int                   @default(0)
   games                 Completed[]
+  triviaSessions        TriviaSessions[]
   streakTrivia          Int                   @default(0)
   streakOmegle          Int                   @default(0)
   pointsHistory         PointsHistory[]
@@ -40,6 +41,7 @@ model Completed {
   completedAt           DateTime              @default(now())
 }
 
+// Historical Tables
 model PointsHistory {
   id                    Int                   @id @default(autoincrement())
   createdAt             DateTime              @default(now())
@@ -48,4 +50,15 @@ model PointsHistory {
   user                  User                  @relation(fields: [discordId], references: [id])
 
   @@unique([createdAt, discordId])
+}
+
+model TriviaSessions {
+  id                    Int                   @id @default(autoincrement())
+  discordId             String
+  user                  User                  @relation(fields: [discordId], references: [id])
+  question              Int                   @default(1)
+  correct               Boolean?              // If its null, its pending vvv
+  answered              String?               // If its null, they haven't answered yet
+  points                Int?
+  createdAt             DateTime              @default(now())
 }

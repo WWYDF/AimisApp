@@ -7,9 +7,8 @@ export async function updateDailyStreak<T extends 'streakTrivia' | 'streakOmegle
   userId: string
   type: Games
   streakField: T
-  pointsAwarded?: number
 }) {
-  const { userId, type, streakField, pointsAwarded = 50 } = params
+  const { userId, type, streakField } = params
 
   const [latestCompletion] = await prisma.completed.findMany({
     where: {
@@ -49,7 +48,6 @@ export async function updateDailyStreak<T extends 'streakTrivia' | 'streakOmegle
   await prisma.user.update({
     where: { id: userId },
     data: {
-      points: { increment: pointsAwarded },
       [streakField]: newStreak,
     },
   })
