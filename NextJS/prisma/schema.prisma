@@ -18,6 +18,8 @@ model User {
   username              String
   displayName           String?
   avatar                String?
+  settings              UserSettings?
+  hidden                Boolean               @default(false)
 
   // Game Stuff
   points                Int                   @default(0)
@@ -33,9 +35,18 @@ model User {
   @@index([points])
 }
 
+model UserSettings {
+  discordId             String                @id @unique
+  user                  User                  @relation(fields: [discordId], references: [id])
+
+  nameOverride          String?
+  hideAvatar            Boolean               @default(false)
+}
+
 model Completed {
   id                    Int                   @id @default(autoincrement())
   type                  Games
+  won                   Boolean
   discordId             String
   user                  User                  @relation(fields: [discordId], references: [id])
   completedAt           DateTime              @default(now())

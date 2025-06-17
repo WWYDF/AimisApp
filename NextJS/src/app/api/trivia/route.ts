@@ -53,8 +53,6 @@ export async function POST(req: NextRequest) {
     const currentQuestionNumber = sessionEntry.question
     const isCorrect = currentQuestion.correct === answer
 
-    console.log(currentQuestionNumber);
-
     // Additive
     const rewardTable = {
       1: { reward: 50, penalty: -25 },
@@ -68,8 +66,6 @@ export async function POST(req: NextRequest) {
     if (!rewardMeta) {
       return new Response(JSON.stringify({ error: 'Invalid question number' }), { status: 400 })
     }
-
-    console.log(`Reward: ${rewardMeta.reward}`);
 
     let pointsDelta = 0
     let completed = false
@@ -108,10 +104,11 @@ export async function POST(req: NextRequest) {
         })
       }
 
+      // They won
       if (currentQuestionNumber === 5) {
         completed = true
         await prisma.completed.create({
-          data: { discordId: userId, type: 'TRIVIA' },
+          data: { discordId: userId, type: 'TRIVIA', won: true },
         })
       }
     } else {
@@ -139,7 +136,7 @@ export async function POST(req: NextRequest) {
 
       completed = true
       await prisma.completed.create({
-        data: { discordId: userId, type: 'TRIVIA' },
+        data: { discordId: userId, type: 'TRIVIA', won: false },
       })
     }
 

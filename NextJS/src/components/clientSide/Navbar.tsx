@@ -64,7 +64,7 @@ export default function Navbar() {
         <button
           className="flex items-center gap-1 hover:text-accent cursor-pointer transition-colors justify-between"
           onClick={() => {
-            router.push('/leaderboard')
+            router.push('/leaderboards')
             setOpenDropdown(null);
           }}
         >
