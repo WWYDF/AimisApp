@@ -132,9 +132,9 @@ export default function Navbar() {
             <Image
               src={session.user.avatar}
               alt="User Avatar"
-              width={32}
-              height={32}
-              className="rounded-full border border-zinc-700 hover:opacity-90 transition cursor-pointer"
+              width={36}
+              height={36}
+              className="rounded-xl hover:opacity-90 transition cursor-pointer"
             />
           </Link>
         ) : (
