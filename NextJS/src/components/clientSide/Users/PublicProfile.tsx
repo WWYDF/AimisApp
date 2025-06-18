@@ -14,16 +14,12 @@ type Props = {
     rank: number;
     streakTrivia: number;
     createdAt: string;
-    hideAvatar: boolean;
     pointsHistory: { createdAt: string; points: number }[];
   };
 };
 
 export default function PublicProfileClient({ data }: Props) {
   const displayName = data.nameOverride || data.displayName || 'Unnamed';
-  const avatar = data.hideAvatar
-    ? `/i/avatars/${Math.floor(Math.random() * 10) + 1}.webp`
-    : data.avatar;
 
   const chartData = {
     labels: data.pointsHistory.map(p => new Date(p.createdAt).toLocaleDateString()),
@@ -43,8 +39,8 @@ export default function PublicProfileClient({ data }: Props) {
     <div className="max-w-4xl mx-auto p-6 text-white">
       <div className="flex items-center gap-4 mb-6">
         <img
-          src={avatar ?? '/i/avatars/placeholder.webp'}
-          className="w-16 h-16 rounded-full object-cover"
+          src={data.avatar ?? '/i/emoticon/DefaultThumbsUp.png'}
+          className="w-16 h-16 rounded-xl object-cover"
           alt="User Avatar"
         />
         <div>

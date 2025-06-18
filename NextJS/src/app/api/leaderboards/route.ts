@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/core/prisma';
+import { getEmotePath } from '@/core/utils/resolveEmoticon';
 
 export async function GET() {
   const users = await prisma.user.findMany({
@@ -16,6 +17,12 @@ export async function GET() {
           won: true,
         },
       },
+      settings: {
+        select: {
+          nameOverride: true,
+          emoteAvatar: true
+        }
+      }
     },
   });
 
@@ -23,12 +30,14 @@ export async function GET() {
     const totalGames = user.games.length;
     const wins = user.games.filter((g: any) => g.won).length;
     const winRate = totalGames > 0 ? Math.round((wins / totalGames) * 100) : 0;
+    const name = user.settings.nameOverride ?? user.displayName;
+    const avatar = (getEmotePath(user.settings.emoteAvatar) ?? user.avatar) ?? '/i/emoticon/DefaultThumbsUp.png';
 
     return {
       rank: index + 1,
       id: user.id,
-      displayName: user.displayName,
-      avatar: user.avatar,
+      displayName: name,
+      avatar: avatar,
       points: user.points,
       streakTrivia: user.streakTrivia,
       winRate: `${winRate}%`,

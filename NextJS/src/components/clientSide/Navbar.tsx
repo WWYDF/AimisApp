@@ -8,6 +8,7 @@ import { NavItems, NavLinkItem } from "@/core/objects/NavItems";
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from 'next/navigation'
+import { getEmotePath } from '@/core/utils/resolveEmoticon'
 
 export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -127,7 +128,7 @@ export default function Navbar() {
       {/* Right: Auth */}
       <div className="flex items-center ml-auto">
         {session?.user?.avatar ? (
-          <Link href="/profile">
+          <Link href="/user">
             <Image
               src={session.user.avatar}
               alt="User Avatar"

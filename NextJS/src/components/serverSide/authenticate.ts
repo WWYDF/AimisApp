@@ -1,6 +1,7 @@
 import { AuthOptions, getServerSession } from "next-auth"
 import DiscordProvider from 'next-auth/providers/discord'
 import { prisma } from '@/core/prisma'
+import { getEmotePath } from "@/core/utils/resolveEmoticon"
 
 export function auth() {
   return getServerSession(authOptions)
@@ -59,9 +60,15 @@ export const authOptions: AuthOptions = {
           createdAt: new Date(),
         },
       })
+
+      await prisma.userSettings.upsert({
+        where: { discordId: id },
+        update: {},
+        create: { discordId: id },
+      })
     
       return true
-    },    
+    },
 
     async session({ session, token }) {
       if (!token.sub) return session
@@ -73,14 +80,22 @@ export const authOptions: AuthOptions = {
           username: true,
           displayName: true,
           avatar: true,
+          settings: {
+            select: {
+              emoteAvatar: true,
+              nameOverride: true
+            }
+          }
         },
       })
     
       if (user) {
+        const avatar = (getEmotePath(user.settings?.emoteAvatar) ?? user.avatar) ?? '/i/emoticon/DefaultThumbsUp.png';
+
         session.user.id = user.id
         session.user.username = user.username
         session.user.displayName = user.displayName
-        session.user.avatar = user.avatar
+        session.user.avatar = avatar
       }
     
       return session

@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { prisma } from '@/core/prisma';
 import PublicProfileClient from '@/components/clientSide/Users/PublicProfile';
+import { getEmotePath } from '@/core/utils/resolveEmoticon';
 
 export default async function UserProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const prams = await params;
@@ -28,7 +29,7 @@ export default async function UserProfilePage({ params }: { params: Promise<{ id
 
   const rank = rankedUsers.findIndex((u: any) => u.id === user.id) + 1;
 
-  const hideAvatar = settings?.hideAvatar || false;
+  const avatar = (getEmotePath(settings?.emoteAvatar) ?? user.avatar);
   const nameOverride = settings?.nameOverride || null;
 
   const profileData = {
@@ -41,9 +42,8 @@ export default async function UserProfilePage({ params }: { params: Promise<{ id
       createdAt: p.createdAt.toISOString(),
       points: p.points,
     })),
-    ...(hideAvatar ? {} : { avatar: user.avatar }),
     ...(nameOverride ? { nameOverride } : { displayName: user.displayName }),
-    hideAvatar,
+    avatar,
   };
 
   return <PublicProfileClient data={profileData} />;

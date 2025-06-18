@@ -37,10 +37,11 @@ model User {
 
 model UserSettings {
   discordId             String                @id @unique
-  user                  User                  @relation(fields: [discordId], references: [id])
+  user                  User                  @relation(fields: [discordId], references: [id], onDelete: Cascade)
 
   nameOverride          String?
-  hideAvatar            Boolean               @default(false)
+  emoteAvatar           String?               @default("DefaultThumbsUp") // If null, use discord.
+  showDiscord           Boolean               @default(false)
 }
 
 model Completed {
@@ -48,7 +49,7 @@ model Completed {
   type                  Games
   won                   Boolean
   discordId             String
-  user                  User                  @relation(fields: [discordId], references: [id])
+  user                  User                  @relation(fields: [discordId], references: [id], onDelete: Cascade)
   completedAt           DateTime              @default(now())
 }
 
@@ -58,7 +59,7 @@ model PointsHistory {
   createdAt             DateTime              @default(now())
   points                Int                   @default(0)
   discordId             String
-  user                  User                  @relation(fields: [discordId], references: [id])
+  user                  User                  @relation(fields: [discordId], references: [id], onDelete: Cascade)
 
   @@unique([createdAt, discordId])
 }
@@ -66,7 +67,7 @@ model PointsHistory {
 model TriviaSessions {
   id                    Int                   @id @default(autoincrement())
   discordId             String
-  user                  User                  @relation(fields: [discordId], references: [id])
+  user                  User                  @relation(fields: [discordId], references: [id], onDelete: Cascade)
   question              Int                   @default(1)
   correct               Boolean?              // If its null, its pending vvv
   answered              String?               // If its null, they haven't answered yet
