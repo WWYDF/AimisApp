@@ -6,6 +6,7 @@ import Navbar from '@/components/clientSide/Navbar';
 import Footer from '@/components/clientSide/Footer';
 import { ToastProvider } from '@/components/clientSide/Toast';
 import UptimeToast from '@/components/clientSide/UptimeKuma';
+import PlausibleProvider from 'next-plausible';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -34,6 +35,7 @@ export default function RootLayout({
       <head />
       <body className={`${inter.className} min-h-screen flex flex-col`}>
         <main className="flex-grow">
+        <PlausibleProvider domain="aimis.app">
           <AuthProvider>
             <Navbar />
               <ToastProvider>
@@ -41,6 +43,7 @@ export default function RootLayout({
               </ToastProvider>
           </AuthProvider>
           <UptimeToast />
+        </PlausibleProvider>
         </main>
         <Footer />
       </body>

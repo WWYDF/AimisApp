@@ -19,6 +19,7 @@
     "framer-motion": "^12.18.1",
     "next": "15.3.3",
     "next-auth": "^4.24.11",
+    "next-plausible": "^3.12.4",
     "phosphor-icons": "^1.4.2",
     "phosphor-react": "^1.4.1",
     "prisma": "^6.9.0",

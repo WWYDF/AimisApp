@@ -27,6 +27,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Dubu", "Octavia", "Estelle", "We don't know"],
     correct: "Estelle",
+    image: "/i/character/timeline/Juliette.webp",
     tier: 1
   },
 
@@ -36,6 +37,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["His Brother", "His Best Friend", "His Dad", "nobody lol"],
     correct: "His Best Friend",
+    image: "/i/character/timeline/Rune.webp",
     tier: 1
   },
 
@@ -45,6 +47,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Kazan", "Zentaro", "Juliette", "X"],
     correct: "Zentaro",
+    image: "/i/awakening/AdrenalineRush.webp",
+    hint: true,
     tier: 1
   },
 
@@ -54,6 +58,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Juno", "Rasmus", "Era", "Atlas"],
     correct: "Juno",
+    image: "/i/awakening/CastToLast.webp",
+    hint: true,
     tier: 1
   },
 
@@ -63,6 +69,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Atlas", "X", "Vyce", "Kazan"],
     correct: "Vyce",
+    image: "/i/awakening/ShockAndAwe.webp",
+    hint: true,
     tier: 1
   },
 
@@ -72,6 +80,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Asher", "X", "Atlas", "Dubu"],
     correct: "Atlas",
+    image: "/i/awakening/MightOfTheColossus.webp",
+    hint: true,
     tier: 1
   },
 
@@ -81,6 +91,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Rasmus", "Nao", "Drek'ar", "Juno"],
     correct: "Drek'ar",
+    image: "/i/awakening/ClarionCorpRegenerator.webp",
+    hint: true,
     tier: 1
   },
 
@@ -99,6 +111,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "boolean",
     choices: ["True", "False"],
     correct: "True",
+    image: "/i/awakening/StacksOnStacks.webp",
     tier: 1
   },
 
@@ -108,6 +121,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Kai", "Octavia", "Luna", "Finii"],
     correct: "Kai",
+    image: "/i/awakening/SuperSurge.webp",
+    hint: true,
     tier: 1
   },
 
@@ -117,6 +132,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["X", "Luna", "Rasmus", "Vyce"],
     correct: "Rasmus",
+    image: "/i/awakening/Demolitionist.webp",
+    hint: true,
     tier: 1
   },
 
@@ -126,6 +143,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Rasmus", "Ai.Mi", "Kazan", "Vyce"],
     correct: "Kazan",
+    image: "/i/awakening/KnifesEdge.webp",
+    hint: true,
     tier: 1
   },
 
@@ -135,6 +154,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Octavia", "Estelle", "Finii", "Ai.Mi"],
     correct: "Octavia",
+    image: "/i/awakening/Reverberation.webp",
+    hint: true,
     tier: 1
   },
 
@@ -144,6 +165,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Kazan", "Asher", "Dubu", "Atlas"],
     correct: "Asher",
+    image: "/i/awakening/SparkofResilience.webp",
+    hint: true,
     tier: 1
   },
 
@@ -153,6 +176,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Finii", "Kai", "Estelle", "Octavia"],
     correct: "Finii",
+    image: "/i/awakening/StaggerSwagger.webp",
+    hint: true,
     tier: 1
   },
 
@@ -173,6 +198,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Juliette, Dubu, Juno", "X, Asher, Luna", "X, Dubu, Luna", "Juliette, Asher, Juno"],
     correct: "X, Dubu, Luna",
+    image: "/i/awakening/AmongTitans.webp",
+    hint: true,
     tier: 1
   },
 
@@ -182,6 +209,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "boolean",
     choices: ["True", "False"],
     correct: "False",
+    image: "/i/character/goalscore/Luna.webp",
     tier: 1
   },
 
@@ -218,6 +246,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "boolean",
     choices: ["True", "False"],
     correct: "True",
+    image: "/i/awakening/EjectButton.webp",
     tier: 1
   },
 
@@ -227,6 +256,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "boolean",
     choices: ["True", "False"],
     correct: "True",
+    image: "/i/map/InkysSplashZone.webp",
     tier: 1
   },
 
@@ -236,6 +266,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Atlas", "Drek'ar", "Rune", "Vyce"],
     correct: "Vyce",
+    image: "/i/map/ClarionCorp.webp",
     tier: 1
   },
 
@@ -250,10 +281,11 @@ export const TriviaTier1: TriviaQuestion[] = [
 
   {
     id: 81,
-    question: "This question only has a 1% chance of showing up, so hopefully it doesn't pepelaugh",
+    question: "This question only has a 1% chance of getting selected, so hopefully it doesn't :PepeLaugh:",
     type: "multiple",
     choices: ["This is the correct answer (trust)", "or is it?", "This answer is wrong", "use code \"AiMiAppSecret\" for sonii wires"],
     correct: "This is the correct answer (trust)",
+    image: "/i/emoticon/MakoOhno.png",
     tier: 1
   },
 
@@ -263,6 +295,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["500,000", "1,000,000", "2,000,000", "3,000,000"],
     correct: "2,000,000",
+    image: "/i/misc/Striker_Credits.webp",
     tier: 1
   },
 
@@ -272,6 +305,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "boolean",
     choices: ["True", "False"],
     correct: "True",
+    image: "/i/character/goalscore/skins/Alpharad_Rune.webp",
     tier: 1
   },
 
@@ -281,6 +315,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["June, 2023", "July, 2023", "August, 2023", "September, 2023"],
     correct: "August, 2023",
+    image: "/i/character/goalscore/Kazan.webp",
     tier: 1
   },
 
@@ -290,6 +325,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["May, 2023", "June, 2023", "July, 2023"],
     correct: "July, 2023",
+    image: "/i/character/goalscore/Finii.webp",
     tier: 1
   },
 
@@ -299,6 +335,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Vyce", "Octavia", "They were released at the same time"],
     correct: "They were released at the same time",
+    image: "/i/emoticon/DemonDrive.png",
     tier: 1
   },
 
@@ -317,6 +354,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "boolean",
     choices: ["True", "False"],
     correct: "True",
+    image: "/i/character/goalscore/X.webp",
     tier: 1
   },
 
@@ -326,6 +364,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "boolean",
     choices: ["True", "False"],
     correct: "True",
+    image: "/i/character/timeline/AiMi.webp",
     tier: 1
   },
 
@@ -388,7 +427,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     question: "Trying to evade with full energy activates an ability called \"Coreflip\".",
     type: "boolean",
     choices: ["True", "False"],
-    correct: "False",
+    correct: "False", // feel like this is gonna piss a lot of people off lol
     tier: 1
   },
 
@@ -451,7 +490,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     question: "What character has an ability called 'X Maximus!'?",
     type: "multiple",
     choices: ["X", "X", "X", "X"],
-    correct: "X",
+    correct: "X", // idk lol
+    image: "/i/character/body/X.webp",
     tier: 1
   },
 
@@ -461,6 +501,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Backstab", "Iai Rush", "Slicing Winds"],
     correct: "Iai Rush",
+    image: "/i/character/goalscore/Zentaro.webp",
     tier: 1
   },
 
@@ -470,6 +511,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Rollout", "Bamboo Bash", "Breakthrough"],
     correct: "Rollout",
+    image: "/i/character/timeline/Dubu.webp",
     tier: 1
   }
 ];
@@ -481,6 +523,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["A.I. Mi", "Ai.Mi", "AiMi", "A.I.Mi"],
     correct: "Ai.Mi",
+    image: "/i/character/timeline/AiMi.webp",
     tier: 2
   },
 
@@ -490,6 +533,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["X", "Kai", "Juliette", "Rasmus"],
     correct: "Rasmus",
+    image: "/i/character/goalscore/Estelle.webp",
     tier: 2
   },
 
@@ -499,6 +543,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["ClarionCorp", "Tofu Consumption", "It's natural"],
     correct: "ClarionCorp",
+    image: "/i/character/timeline/Dubu.webp",
     tier: 2
   },
 
@@ -508,6 +553,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Rasmus", "Ai.Mi", "Finii", "Luna"],
     correct: "Luna",
+    image: "/i/awakening/MissilePropulsion.webp",
+    hint: true,
     tier: 2
   },
 
@@ -517,6 +564,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Juliette", "Finii", "Juno", "Octavia"],
     correct: "Finii",
+    image: "/i/awakening/TeamPlayer.webp",
+    hint: true,
     tier: 2
   },
 
@@ -526,6 +575,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["SSR", "Ember Monarchs", "Frost Fire", "Byte Breakers"],
     correct: "Frost Fire",
+    image: "/i/awakening/FireUp.webp",
+    hint: true,
     tier: 2
   },
 
@@ -535,6 +586,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Rasmus", "Juno", "Mako", "Luna"],
     correct: "Juno",
+    image: "/i/awakening/SiegeMachine.webp",
+    hint: true,
     tier: 2
   },
 
@@ -553,6 +606,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Exceptional", "Excessive", "Explosive", "X Factor"],
     correct: "Excessive",
+    image: "/i/character/timeline/X.webp",
     tier: 2
   },
 
@@ -571,6 +625,15 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "boolean",
     choices: ["True", "False"],
     correct: "True",
+    tier: 2
+  },
+
+  {
+    id: 123,
+    question: "'Zentaro Lore' is a real title in the game.",
+    type: "boolean",
+    choices: ["True", "False"],
+    correct: "False",
     tier: 2
   },
 
@@ -607,6 +670,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Corner Pocket", "Back to Back", "Center Stage", "Map Flipped"],
     correct: "Center Stage",
+    image: "/i/awakening/StaggerSwagger.webp",
     tier: 2
   },
 
@@ -616,6 +680,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "boolean",
     choices: ["True", "False"],
     correct: "True",
+    image: "/i/awakening/StaggerSwagger.webp",
     tier: 2
   },
 
@@ -625,6 +690,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "boolean",
     choices: ["True", "False"],
     correct: "True",
+    image: "/i/map/Project_Maelstrom.webp",
     tier: 2
   },
 
@@ -634,6 +700,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["The Developer that added it to the game", "Nobody, it's a made up name", "The octopus behind the cannon", "aesop"],
     correct: "The octopus behind the cannon",
+    image: "/i/map/InkysSplashZone.webp",
+    hint: true,
     tier: 2
   },
 
@@ -643,6 +711,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["June, 2023", "July, 2023", "August, 2023", "May, 2023"],
     correct: "July, 2023",
+    image: "/i/character/goalscore/Finii.webp",
     tier: 2
   },
 
@@ -652,6 +721,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "boolean",
     choices: ["True", "False"],
     correct: "True",
+    image: "/i/character/goalscore/Rune.webp",
     tier: 2
   },
 
@@ -679,6 +749,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["1", "2", "3", "None"],
     correct: "1",
+    image: "/i/character/body/Vyce.webp",
+    hint: true, // idk maybe they'll still get it wrong lol
     tier: 2
   },
 
@@ -688,6 +760,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Atlas", "Drek'ar", "Era", "Mako"],
     correct: "Era",
+    image: "/i/emoticon/Maelstrom.png", // gonna throw them off with this haha
     tier: 2
   },
 
@@ -715,8 +788,19 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["He doesn't like his attitude", "Kai humiliated him as a child", "He's jealous of Kai"],
     correct: "Kai humiliated him as a child",
+    image: "/i/emoticon/RuneDespair.png",
     tier: 2
-  }
+  },
+
+  {
+    id: 122,
+    question: "'Shogun Asher' was claimable via code for free for a short time",
+    type: "boolean",
+    choices: ["True", "False"],
+    correct: "False",
+    image: "/i/character/goalscore/skins/Shogun_Asher.webp",
+    tier: 2
+  },
 ];
 
   export const TriviaTier3: TriviaQuestion[] = [
@@ -726,6 +810,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "boolean",
     choices: ["True", "False"],
     correct: "False",
+    image: "/i/emoticon/VyceRockOn.gif", // another red herring
     tier: 3
   },
 
@@ -744,6 +829,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Zentaro", "Kai", "Kazan", "Dubu"],
     correct: "Dubu",
+    image: "/i/awakening/RapidFire.webp",
+    hint: true,
     tier: 3
   },
 
@@ -753,6 +840,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Atlas", "Rasmus", "Juno", "Dubu"],
     correct: "Juno",
+    image: "/i/awakening/TimelessCreator.webp",
+    hint: true,
     tier: 3
   },
 
@@ -762,6 +851,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Juliette", "X", "Kazan", "Luna"],
     correct: "X",
+    image: "/i/awakening/SparkofStrength.webp",
+    hint: true,
     tier: 3
   },
 
@@ -771,6 +862,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Drek'ar", "Mako", "Asher", "Vyce"],
     correct: "Asher",
+    image: "/i/misc/Striker_Credits.webp",
     tier: 3
   },
 
@@ -780,6 +872,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["For money", "Because Luna did", "To test his inventions", "His father wanted him to"],
     correct: "To test his inventions",
+    image: "/i/character/timeline/Atlas.webp",
     tier: 3
   },
 
@@ -798,6 +891,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Blobbo Buddy", "Blob Whisperer", "Ice Cream Enjoyer", "Sweet Treat"],
     correct: "Blobbo Buddy",
+    image: "/i/character/timeline/Juno.webp",
     tier: 3
   },
 
@@ -816,6 +910,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Buy the 'Idol Ai.Mi' skin", "Ai.Mi Affinity", "Octavia Affinity", "MVP 5 times during the Music Event"],
     correct: "MVP 5 times during the Music Event",
+    image: "/i/character/goalscore/skins/Idol_AiMi.webp", // Another red herring (get trolled)
     tier: 3
   },
 
@@ -843,6 +938,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["NAST", "OSAS", "Knowledge Gap", "NASA"],
     correct: "Knowledge Gap",
+    image: "/i/emoticon/SoniiTrophy.png",
     tier: 3
   },
 
@@ -852,6 +948,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "boolean",
     choices: ["True", "False"],
     correct: "True",
+    image: "/i/emoticon/SoniiSalute.png",
     tier: 3
   },
 
@@ -870,6 +967,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Unlock all 3 Members of ClarionCorp", "Search your username on ClarionCorp.net", "Season 1 Striker Pass", "This title doesn't exist"],
     correct: "This title doesn't exist",
+    image: "/i/emoticon/ClarionCorp.png",
     tier: 3
   },
 
@@ -897,6 +995,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Pummelers", "Vicious Vambrace", "Siphoning Wand"],
     correct: "Siphoning Wand",
+    image: "/i/awakening/TempoSwings.webp",
     tier: 3
   },
 
@@ -906,6 +1005,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Taro", "Pumpkin", "Mango", "Milk Tea"],
     correct: "Mango",
+    image: "/i/awakening/StaggerSwagger.webp",
     tier: 3
   },
 
@@ -920,7 +1020,7 @@ export const TriviaTier1: TriviaQuestion[] = [
 
   {
     id: 99,
-    question: "Which of these characters can make use of every awakening in the game.",
+    question: "Which of these characters can make use of every awakening in the game? (No caution symbol)",
     type: "multiple",
     choices: ["Era", "Octavia", "Finii", "Luna"],
     correct: "Era",
@@ -951,6 +1051,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Rasmus", "Drek'ar", "Rune", "Kazan"],
     correct: "Kazan",
+    image: "/i/character/goalscore/Atlas.webp",
     tier: 3
   }
 ];
@@ -962,15 +1063,18 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Juliette", "Vyce", "Kazan", "X"],
     correct: "X",
+    image: "/i/awakening/BuiltDifferent.webp",
+    hint: true,
     tier: 4
   },
 
   {
     id: 7,
-    question: "Kai attends X's house parties",
+    question: "Kai attends X's house parties.",
     type: "boolean",
     choices: ["True", "False"],
     correct: "True",
+    image: "/i/character/timeline/Kai.webp",
     tier: 4
   },
 
@@ -980,6 +1084,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["X", "Nao", "Atlas", "Estelle"],
     correct: "Atlas",
+    image: "/i/character/goalscore/Asher.webp",
     tier: 4
   },
 
@@ -1052,6 +1157,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Unlock Octavia", "Have your team play Vyce, Octavia, and Mako", "KO 5 enemies with your SPECIAL ability", "Have Aerials, Super Surge, and Chronoboost all at once"],
     correct: "KO 5 enemies with your SPECIAL ability",
+    image: "/i/nameplate/DemonDrive_large.webp",
     tier: 4
   }
 ];
@@ -1063,6 +1169,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "boolean",
     choices: ["True", "False"],
     correct: "True",
+    image: "/i/character/timeline/Rune.webp",
     tier: 5
   },
 
@@ -1072,6 +1179,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Give Power for each KO", "Resist Knockback and Damage", "Prevent the first KO", "Give speed on hit"],
     correct: "Resist Knockback and Damage",
+    image: "/i/awakening/Unstoppable.webp",
     tier: 5
   },
 
@@ -1081,6 +1189,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Kai", "Era", "Octavia", "Mako"],
     correct: "Era",
+    image: "/i/awakening/SparkofAgility.webp",
+    hint: true,
     tier: 5
   },
 
@@ -1090,6 +1200,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Atlas", "Luna", "Drek'ar", "Rasmus"],
     correct: "Luna",
+    image: "/i/awakening/SparkofFocus.webp",
+    hint: true,
     tier: 5
   },
 
@@ -1099,6 +1211,7 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Zentaro", "Mako", "Asher", "Nao"],
     correct: "Asher",
+    image: "/i/emoticon/Colin.png",
     tier: 5
   },
 
