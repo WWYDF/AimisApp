@@ -5,16 +5,16 @@ import { allTiers, qWeights } from '@/core/objects/trivia';
 import { setCurrentTrivia } from '@/core/storage';
 
 const cronPlugin: FastifyPluginAsync = async (fastify) => {
+  fastify.log.info('[>] Cycling trivia question...');
+
+  const questionIds = getRandomTriviaSet();
+
+  setCurrentTrivia(questionIds);
+  
+  fastify.log.info(`[>] Picked Questions: ${questionIds}`);
   
   // Every 24 hours, cycle trivia question
   cron.schedule('0 0 * * *', async () => {
-    fastify.log.info('[>] Cycling trivia question...');
-
-    const questionIds = getRandomTriviaSet();
-  
-    setCurrentTrivia(questionIds);
-    
-    fastify.log.info(`[>] Picked Questions: ${questionIds}`);
   });
 
   fastify.log.info('[+] Cronjobs Initialized!');

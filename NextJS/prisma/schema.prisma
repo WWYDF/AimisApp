@@ -13,6 +13,12 @@ enum Games {
   OMEGLE
 }
 
+enum SusLevel {
+  LOW
+  MEDIUM
+  HIGH
+}
+
 model User {
   id                    String                @id @unique
   username              String
@@ -76,6 +82,18 @@ model Completed {
   completedAt           DateTime              @default(now())
 }
 
+model Suspicions {
+  id                    Int                   @id @default(autoincrement())
+  session               TriviaSessions        @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  sessionId             Int                   @unique
+  discordId             String
+
+  completeTimes         Int[]
+  avgTTC                Float?                // In Seconds
+  level                 SusLevel
+  loggedAt              DateTime              @default(now())
+}
+
 // Historical Tables
 model PointsHistory {
   id                    Int                   @id @default(autoincrement())
@@ -88,13 +106,15 @@ model PointsHistory {
 }
 
 model TriviaSessions {
-  id                    Int                   @id @default(autoincrement())
+  id                    Int                   @id @unique @default(autoincrement())
   discordId             String
   user                  User                  @relation(fields: [discordId], references: [id], onDelete: Cascade)
   question              Int                   @default(1)
   correct               Boolean?              // If its null, its pending vvv
   answered              String?               // If its null, they haven't answered yet
   points                Int?
+  suspicious            Suspicions?
   hintUsed              Boolean               @default(false)
+  lastUpdated           DateTime              @default(now())
   createdAt             DateTime              @default(now())
 }

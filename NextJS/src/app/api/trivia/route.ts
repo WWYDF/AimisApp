@@ -2,6 +2,7 @@ import { auth } from '@/components/serverSide/authenticate'
 import { NextRequest } from 'next/server'
 import { prisma } from '@/core/prisma'
 import { updateDailyStreak } from '@/core/utils/updateStreak'
+import { checkCheating, setTTC } from '@/core/utils/antiCheat'
 
 export async function POST(req: NextRequest) {
   const session = await auth()
@@ -86,6 +87,9 @@ export async function POST(req: NextRequest) {
         data: { discordId: userId, points: user.points + pointsDelta },
       })
 
+      const newUpdateTime = new Date();
+      checkCheating(sessionEntry.lastUpdated, newUpdateTime, sessionEntry);
+
       await prisma.triviaSessions.update({
         where: { id: sessionEntry.id },
         data: {
@@ -93,6 +97,7 @@ export async function POST(req: NextRequest) {
           answered: answer,
           question: currentQuestionNumber + 1,
           hintUsed: false,
+          lastUpdated: newUpdateTime,
         },
       })
 
@@ -111,6 +116,8 @@ export async function POST(req: NextRequest) {
           data: { discordId: userId, type: 'TRIVIA', won: true },
         })
       }
+
+      // They lost
     } else {
       pointsDelta = rewardMeta.penalty
 
@@ -131,6 +138,7 @@ export async function POST(req: NextRequest) {
         data: {
           correct: false,
           answered: answer,
+          lastUpdated: new Date(),
         },
       })
 
@@ -139,6 +147,8 @@ export async function POST(req: NextRequest) {
         data: { discordId: userId, type: 'TRIVIA', won: false },
       })
     }
+
+    await setTTC(sessionEntry);
 
     return new Response(
       JSON.stringify({
