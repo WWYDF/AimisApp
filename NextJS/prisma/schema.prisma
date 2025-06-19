@@ -29,6 +29,7 @@ model User {
   triviaSessions        TriviaSessions[]
   streakTrivia          Int                   @default(0)
   streakOmegle          Int                   @default(0)
+  longestStreak         Int                   @default(0) // For all gamemodes
   pointsHistory         PointsHistory[]
 
   lastSeen              DateTime              @default(now())

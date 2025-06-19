@@ -123,8 +123,8 @@ export const emoticon = [
   { id: 'RunePoor', label: 'Rune Poor', ext: 'png' },
   { id: 'RuneSurprised', label: 'Rune Surprised', ext: 'gif', cost: 9001 },
   { id: 'RuneV', label: 'Rune V', ext: 'png', cost: lowCost },
-  { id: 'SoniiPepega', label: 'Sonii Pepega', ext: 'png', cost: -9999 },
-  { id: 'SoniiSalute', label: 'Sonii Salute', ext: 'png', disabled: true },
+  { id: 'SoniiPepega', label: 'Sonii Pepega', ext: 'png', cost: 0 }, // lol
+  { id: 'SoniiSalute', label: 'Sonii Salute', ext: 'png', cost: 10000 },
   { id: 'SoniiTank', label: 'Sonii Tank', ext: 'png', disabled: true },
   { id: 'SoniiTrophy', label: 'Sonii Trophy', ext: 'png', disabled: true },
   { id: 'SoniiWires', label: 'Sonii Wires', ext: 'png', disabled: true },

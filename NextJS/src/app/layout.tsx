@@ -5,6 +5,7 @@ import AuthProvider from '@/components/clientSide/AuthProvider';
 import Navbar from '@/components/clientSide/Navbar';
 import Footer from '@/components/clientSide/Footer';
 import { ToastProvider } from '@/components/clientSide/Toast';
+import UptimeToast from '@/components/clientSide/UptimeKuma';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -39,6 +40,7 @@ export default function RootLayout({
                 {children}
               </ToastProvider>
           </AuthProvider>
+          <UptimeToast />
         </main>
         <Footer />
       </body>

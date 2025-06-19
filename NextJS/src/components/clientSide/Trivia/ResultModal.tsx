@@ -34,7 +34,7 @@ export default function ResultModal({
 
   useEffect(() => {
     let frame: number
-    const duration = 1000 // ms
+    const duration = 750 // ms
     const start = performance.now()
     const from = 0
     const to = points

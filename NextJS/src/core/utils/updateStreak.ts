@@ -36,19 +36,26 @@ export async function updateDailyStreak<T extends 'streakTrivia' | 'streakOmegle
       points: true,
       streakTrivia: true,
       streakOmegle: true,
+      longestStreak: true
     },
   })
 
   const currentStreak = user?.[streakField] ?? 0
   const lastDate = latestCompletion ? startOfDay(new Date(latestCompletion.completedAt)) : null
+  let longestStreak = (user?.longestStreak ?? 1)
 
   const newStreak =
     lastDate && lastDate.getTime() === yesterday.getTime() ? currentStreak + 1 : 1
 
+  if (longestStreak < newStreak) {
+    longestStreak = newStreak;
+  }
+  
   await prisma.user.update({
     where: { id: userId },
     data: {
       [streakField]: newStreak,
+      longestStreak
     },
   })
 
