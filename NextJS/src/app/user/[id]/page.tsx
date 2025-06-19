@@ -15,6 +15,7 @@ export default async function UserProfilePage({ params }: { params: Promise<{ id
       pointsHistory: {
         orderBy: { createdAt: 'asc' },
       },
+      badges: true
     },
   });
 
@@ -46,6 +47,7 @@ export default async function UserProfilePage({ params }: { params: Promise<{ id
     })),
     ...(nameOverride ? { nameOverride } : { displayName: user.displayName }),
     avatar,
+    badges: user.badges,
   };
 
   return <PublicProfileClient data={profileData} session={session} />;

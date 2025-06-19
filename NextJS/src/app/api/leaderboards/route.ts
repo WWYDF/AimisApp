@@ -22,7 +22,8 @@ export async function GET() {
           nameOverride: true,
           emoteAvatar: true
         }
-      }
+      },
+      badges: true
     },
   });
 
@@ -41,6 +42,7 @@ export async function GET() {
       points: user.points,
       streakTrivia: user.streakTrivia,
       winRate: `${winRate}%`,
+      badges: user.badges
     };
   });
 

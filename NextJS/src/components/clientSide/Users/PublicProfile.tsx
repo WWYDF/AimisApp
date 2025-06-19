@@ -5,6 +5,8 @@ import 'chart.js/auto';
 import { Flame } from 'phosphor-react';
 import { useRouter } from 'next/navigation';
 import { Session } from 'next-auth';
+import renderBadges from '../BadgePill';
+import { Badge } from '@prisma/client';
 
 type Props = {
   data: {
@@ -17,6 +19,7 @@ type Props = {
     streakTrivia: number;
     createdAt: string;
     pointsHistory: { createdAt: string; points: number }[];
+    badges: Badge[];
   };
   session?: Session | null;
 };
@@ -50,13 +53,16 @@ export default function PublicProfileClient({ data, session }: Props) {
             alt="User Avatar"
           />
           <div>
-            <h2 className="text-2xl font-bold">{displayName}</h2>
+            <div className="flex items-center">
+              <h2 className="text-2xl font-bold mr-2">{displayName}</h2>
+              {data.badges && (renderBadges(data.badges))}
+            </div>
             <p className="text-gray-400 text-sm">Rank #{data.rank}</p>
           </div>
         </div>
         {isSelf && (
           <button
-          className="px-4 py-2 bg-accent text-white rounded hover:bg-accent/80 transition cursor-pointer"
+          className="px-4 py-2 bg-accent-muted text-white rounded hover:bg-accent-muted/80 transition cursor-pointer"
           onClick={() => router.push(`/user`)}
         >
           Edit Profile

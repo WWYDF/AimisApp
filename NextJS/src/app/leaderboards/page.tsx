@@ -1,4 +1,7 @@
 'use client';
+import renderBadges from '@/components/clientSide/BadgePill';
+import { Badge } from '@prisma/client';
+import Link from 'next/link';
 import { Flame } from 'phosphor-react';
 import { useEffect, useState } from 'react';
 
@@ -10,6 +13,7 @@ type LeaderboardEntry = {
   points: number;
   streakTrivia: number;
   winRate: string;
+  badges: Badge[]
 };
 
 export default function LeaderboardPage() {
@@ -40,7 +44,13 @@ export default function LeaderboardPage() {
               <td className="p-3 font-semibold text-accent">{user.rank}</td>
               <td className="p-3 flex items-center gap-3">
                 <img src={user.avatar} alt="Avatar" className="w-8 h-8 rounded-xl" />
-                <span className='font-semibold'>{user.displayName || 'Unnamed'}</span>
+                <Link
+                  href={`/user/${user.id}`}
+                  className='font-semibold hover:underline hover:text-accent transition'
+                >
+                  {user.displayName || 'Unnamed'}
+                </Link>
+                {user.badges && (renderBadges(user.badges))}
               </td>
               <td className="p-3">{user.points}</td>
               <td className="p-3 items-center gap-1">

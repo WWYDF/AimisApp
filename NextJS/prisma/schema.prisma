@@ -20,6 +20,7 @@ model User {
   avatar                String?
   settings              UserSettings?
   hidden                Boolean               @default(false)
+  badges                Badge[]
 
   // Game Stuff
   points                Int                   @default(0)
@@ -42,6 +43,15 @@ model UserSettings {
   nameOverride          String?
   emoteAvatar           String?               @default("DefaultThumbsUp") // If null, use discord.
   showDiscord           Boolean               @default(false)
+}
+
+model Badge {
+  id                    String                @id @unique
+  name                  String                
+  icon                  String?
+  color                 String?
+
+  users                 User[]
 }
 
 model Completed {
