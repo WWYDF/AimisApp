@@ -33,6 +33,7 @@ export default function TriviaClient({ triviaList, initialIndex }: TriviaClientP
   const [gameOver, setGameOver] = useState(false)
   const [hasViewedHint, setHasViewedHint] = useState(false)
   const [showHintModal, setShowHintModal] = useState(false)
+  const [gameWon, setWin] = useState(false)
 
   const toast = useToast()
   const fireConfetti = useConfetti()
@@ -59,8 +60,13 @@ export default function TriviaClient({ triviaList, initialIndex }: TriviaClientP
     const data = await res.json()
     setResult({ correct: data.correct, correctAnswer: data.correctAnswer, points: data.points })
     setShowModal(true)
+    setHasViewedHint(false)
 
-    if (data.correct) fireConfetti()
+    if (data.correct) {
+      fireConfetti()
+      console.log(questionIndex);
+      if (questionIndex + 1 === 5) { setWin(true) }
+    }
   }
 
   const handleNext = () => {
@@ -76,6 +82,7 @@ export default function TriviaClient({ triviaList, initialIndex }: TriviaClientP
   }
 
   const handleStop = () => {
+    console.log(1)
     setShowModal(false)
   }
 
@@ -95,17 +102,15 @@ export default function TriviaClient({ triviaList, initialIndex }: TriviaClientP
   
 
   if (gameOver) {
-    const won = (questionIndex + 1) === triviaList.length
-
-    if (won) { fireWinConfetti() }
+    if (gameWon) { fireWinConfetti() }
 
     return (
       <div className="max-w-xl mx-auto mt-10 text-white text-center space-y-4">
-        <h1 className={`text-3xl font-bold ${won ? 'text-green-400' : 'text-red-400'}`}>
-          {won ? '🎉 You Won!' : 'Game Over'}
+        <h1 className={`text-3xl font-bold ${gameWon ? 'text-green-400' : 'text-red-400'}`}>
+          {gameWon ? '🎉 You Won!' : 'Game Over'}
         </h1>
         <p className="text-lg">
-          You answered{won ? ' all' : ''} {questionIndex + 1} question{questionIndex !== 1 ? 's' : ''}{won ? ' successfully' : ''}!
+          You answered{gameWon ? ' all' : ''} {questionIndex + 1} question{questionIndex !== 1 ? 's' : ''}{gameWon ? ' successfully' : ''}!
         </p>
       </div>
     )

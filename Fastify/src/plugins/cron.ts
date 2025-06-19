@@ -6,7 +6,7 @@ import { setCurrentTrivia } from '@/core/storage';
 
 const cronPlugin: FastifyPluginAsync = async (fastify) => {
   
-  // Every 12 hours, cycle trivia question
+  // Every 24 hours, cycle trivia question
   cron.schedule('0 0 * * *', async () => {
     fastify.log.info('[>] Cycling trivia question...');
 
