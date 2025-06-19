@@ -14,6 +14,7 @@ module.exports = {
         'accent-muted': '#bd2a91',
         error: '#FF5E4F',
         subtle: '#85828B',
+        'gray-dark': '#0f131f',
       },
       gridTemplateColumns: {
         '13': 'repeat(13, minmax(0, 1fr))',
