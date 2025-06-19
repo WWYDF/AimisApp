@@ -41,12 +41,20 @@ export default async function TriviaPage() {
     hint
   }))
 
-  const sessionEntry = await prisma.triviaSessions.findFirst({
+  let sessionEntry = await prisma.triviaSessions.findFirst({
     where: {
       discordId: userId,
       createdAt: { gte: new Date(new Date().setHours(0, 0, 0, 0)) },
     },
   })
+
+  // Create entry if one doesn't exist for this user yet.
+  if (!sessionEntry) {
+    sessionEntry = await prisma.triviaSessions.create({ data: {
+      discordId: userId,
+      question: 1
+    }})
+  }
   
   const currentIndex = sessionEntry?.question ? sessionEntry.question - 1 : 0
   

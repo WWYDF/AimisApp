@@ -13,6 +13,7 @@ interface ResultModalProps {
   onContinue: () => void
   onStop: () => void
   isFinal: boolean
+  points: number
 }
 
 export default function ResultModal({
@@ -23,9 +24,11 @@ export default function ResultModal({
   correctAnswer,
   onContinue,
   onStop,
-  isFinal
+  isFinal,
+  points
 }: ResultModalProps) {
-  const imagePath = getCharacterPath(correct ? selected : correctAnswer)
+  const cleanedName = (correct ? selected : correctAnswer).replace(/ Affinity$/, '');
+  const imagePath = getCharacterPath(cleanedName);
 
   return (
     <AnimatePresence>
@@ -55,9 +58,26 @@ export default function ResultModal({
               onClick={(e) => e.stopPropagation()}
               className="bg-zinc-900 border border-zinc-700 rounded-xl p-6 w-full max-w-md text-center space-y-4 relative"
             >
-              <h2 className={`text-2xl font-bold ${correct ? 'text-green-500' : 'text-red-500'}`}>
-                {correct ? 'CORRECT' : 'INCORRECT'}
-              </h2>
+              <div className="flex flex-col items-center">
+                <h2 className={`text-2xl font-bold ${correct ? 'text-green-500' : 'text-red-500'}`}>
+                  {correct ? 'CORRECT' : 'INCORRECT'}
+                </h2>
+
+                <motion.p
+                  initial={{ y: -6, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.3, ease: 'easeOut' }}
+                  className={`text-sm font-medium ${
+                    points > 0
+                      ? 'text-green-400'
+                      : points < 0
+                      ? 'text-red-400'
+                      : 'text-zinc-400'
+                  }`}
+                >
+                  ({points === 0 ? `0 points` : `${points > 0 ? `+${points}` : points} points`})
+                </motion.p>
+              </div>
 
               {imagePath && (
                 <div className="w-40 h-40 mx-auto relative">
@@ -68,7 +88,7 @@ export default function ResultModal({
               <p className="text-lg text-zinc-400 whitespace-pre-line">
                 {correct ? (
                   <>
-                    <b>'{selected}'</b> <br />
+                    <a className='font-bold text-green-400'>'{selected}'</a> <br />
                     <i>...was the right answer.</i>
                   </>
                 ) : (
@@ -83,12 +103,12 @@ export default function ResultModal({
 
               {/* Button area */}
               <div className="flex justify-center gap-4 mt-4">
-                <button
-                  onClick={onStop}
-                  className="px-4 py-2 rounded bg-zinc-800 border border-zinc-700 hover:bg-zinc-700 transition cursor-pointer text-white"
-                >
-                  Close
-                </button>
+              <button
+                onClick={isFinal ? onContinue : onStop}
+                className="px-4 py-2 rounded bg-zinc-800 border border-zinc-700 hover:bg-zinc-700 transition cursor-pointer text-white"
+              >
+                {isFinal ? 'Claim Rewards' : 'Close'}
+              </button>
                 {correct && !isFinal && (
                   <button
                     onClick={onContinue}

@@ -5,7 +5,7 @@ import Image from 'next/image'
 import EmoticonPickerModal from './EmoticonPicker'
 import DiscordAvatarWarning from './DiscordWarning'
 import { User, UserSettings } from '@prisma/client'
-import { getEmotePath } from '@/core/utils/resolveEmoticon'
+import { getEmotePath } from '@/core/utils/pathResolver'
 import { AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 

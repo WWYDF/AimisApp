@@ -162,6 +162,8 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Rasmus", "Atlas", "Mako", "Juno"],
     correct: "Juno",
+    image: "/i/awakening/Monumentalist.webp",
+    hint: true,
     tier: 1
   },
 

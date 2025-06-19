@@ -1,5 +1,5 @@
 import { emoticon } from '@/core/objects/emotes'
-import { getEmotePath } from '@/core/utils/resolveEmoticon'
+import { getEmotePath } from '@/core/utils/pathResolver'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 

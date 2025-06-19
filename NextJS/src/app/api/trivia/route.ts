@@ -145,7 +145,7 @@ export async function POST(req: NextRequest) {
         correct: isCorrect,
         correctAnswer: currentQuestion.correct,
         completed,
-        pointsEarned: pointsDelta,
+        points: pointsDelta,
       }),
       { status: 200 }
     )

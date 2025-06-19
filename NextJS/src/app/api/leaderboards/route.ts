@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/core/prisma';
-import { getEmotePath } from '@/core/utils/resolveEmoticon';
+import { getEmotePath } from '@/core/utils/pathResolver';
 
 export async function GET() {
   const users = await prisma.user.findMany({

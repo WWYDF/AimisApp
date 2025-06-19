@@ -8,7 +8,7 @@ import { NavItems, NavLinkItem } from "@/core/objects/NavItems";
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from 'next/navigation'
-import { getEmotePath } from '@/core/utils/resolveEmoticon'
+import { getEmotePath } from '@/core/utils/pathResolver'
 
 export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);

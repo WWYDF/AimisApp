@@ -27,6 +27,7 @@ export default function TriviaClient({ triviaList, initialIndex }: TriviaClientP
   const [result, setResult] = useState<null | {
     correct: boolean
     correctAnswer: string
+    points: number
   }>(null)
   const [showModal, setShowModal] = useState(false)
   const [gameOver, setGameOver] = useState(false)
@@ -55,7 +56,7 @@ export default function TriviaClient({ triviaList, initialIndex }: TriviaClientP
     }
 
     const data = await res.json()
-    setResult({ correct: data.correct, correctAnswer: data.correctAnswer })
+    setResult({ correct: data.correct, correctAnswer: data.correctAnswer, points: data.points })
     setShowModal(true)
 
     if (data.correct) fireConfetti()
@@ -93,10 +94,18 @@ export default function TriviaClient({ triviaList, initialIndex }: TriviaClientP
   
 
   if (gameOver) {
+    const won = (questionIndex + 1) === triviaList.length
+
+    if (won) { fireConfetti() }
+
     return (
-      <div className="max-w-xl mx-auto mt-10 text-white text-center">
-        <h1 className="text-2xl font-bold text-red-400">Game Over</h1>
-        <p className="text-lg mt-4">You finished with {questionIndex} correct answer{questionIndex !== 1 ? 's' : ''}!</p>
+      <div className="max-w-xl mx-auto mt-10 text-white text-center space-y-4">
+        <h1 className={`text-3xl font-bold ${won ? 'text-green-400' : 'text-red-400'}`}>
+          {won ? '🎉 You Won!' : 'Game Over'}
+        </h1>
+        <p className="text-lg">
+          You answered{won ? ' all' : ''} {questionIndex + 1} question{questionIndex !== 1 ? 's' : ''}{won ? ' successfully' : ''}!
+        </p>
       </div>
     )
   }
@@ -165,6 +174,7 @@ export default function TriviaClient({ triviaList, initialIndex }: TriviaClientP
         onContinue={handleNext}
         onStop={handleStop}
         isFinal={questionIndex === triviaList.length - 1}
+        points={result?.points ?? 0} // Shouldn't really ever be 0 though
       />
 
 

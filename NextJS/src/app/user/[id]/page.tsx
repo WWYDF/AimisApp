@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { prisma } from '@/core/prisma';
 import PublicProfileClient from '@/components/clientSide/Users/PublicProfile';
-import { getEmotePath } from '@/core/utils/resolveEmoticon';
+import { getEmotePath } from '@/core/utils/pathResolver';
 
 export default async function UserProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const prams = await params;

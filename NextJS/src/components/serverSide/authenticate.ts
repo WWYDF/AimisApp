@@ -1,7 +1,7 @@
 import { AuthOptions, getServerSession } from "next-auth"
 import DiscordProvider from 'next-auth/providers/discord'
 import { prisma } from '@/core/prisma'
-import { getEmotePath } from "@/core/utils/resolveEmoticon"
+import { getEmotePath } from "@/core/utils/pathResolver"
 
 export function auth() {
   return getServerSession(authOptions)
