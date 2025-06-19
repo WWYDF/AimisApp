@@ -11,7 +11,7 @@ module.exports = {
       colors: {
         'secondary-border': '#1D1D29',
         accent: '#fc3ac2',
-        darkerAccent: '#bd2a91',
+        'accent-muted': '#bd2a91',
         error: '#FF5E4F',
         subtle: '#85828B',
       },

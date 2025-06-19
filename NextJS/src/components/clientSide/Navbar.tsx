@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from 'next/navigation'
 import { getEmotePath } from '@/core/utils/pathResolver'
+import LiftedButton from './LiftedButton'
 
 export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -127,6 +128,13 @@ export default function Navbar() {
 
       {/* Right: Auth */}
       <div className="flex items-center ml-auto">
+        {/* {session && (
+          <div className='mr-4'>
+            <LiftedButton key="profileButton" variant="accent" size="sm">
+              My Profile
+            </LiftedButton>
+          </div>
+        )} */}
         {session?.user?.avatar ? (
           <Link href="/user">
             <Image
@@ -135,6 +143,7 @@ export default function Navbar() {
               width={36}
               height={36}
               className="rounded-xl hover:opacity-90 transition cursor-pointer"
+              unoptimized // For GIFs
             />
           </Link>
         ) : (

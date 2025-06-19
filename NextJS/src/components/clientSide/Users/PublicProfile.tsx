@@ -3,6 +3,8 @@
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 import { Flame } from 'phosphor-react';
+import { useRouter } from 'next/navigation';
+import { Session } from 'next-auth';
 
 type Props = {
   data: {
@@ -16,10 +18,13 @@ type Props = {
     createdAt: string;
     pointsHistory: { createdAt: string; points: number }[];
   };
+  session?: Session | null;
 };
 
-export default function PublicProfileClient({ data }: Props) {
+export default function PublicProfileClient({ data, session }: Props) {
+  const router = useRouter();
   const displayName = data.nameOverride || data.displayName || 'Unnamed';
+  const isSelf = (session && data.id == session.user.id);
 
   const chartData = {
     labels: data.pointsHistory.map(p => new Date(p.createdAt).toLocaleDateString()),
@@ -37,16 +42,26 @@ export default function PublicProfileClient({ data }: Props) {
 
   return (
     <div className="max-w-4xl mx-auto p-6 text-white">
-      <div className="flex items-center gap-4 mb-6">
-        <img
-          src={data.avatar ?? '/i/emoticon/DefaultThumbsUp.png'}
-          className="w-16 h-16 rounded-xl object-cover"
-          alt="User Avatar"
-        />
-        <div>
-          <h2 className="text-2xl font-bold">{displayName}</h2>
-          <p className="text-gray-400 text-sm">Rank #{data.rank}</p>
+      <div className="flex justify-between items-center mb-6">
+        <div className="flex items-center gap-4">
+          <img
+            src={data.avatar ?? '/i/emoticon/DefaultThumbsUp.png'}
+            className="w-16 h-16 rounded-xl object-cover"
+            alt="User Avatar"
+          />
+          <div>
+            <h2 className="text-2xl font-bold">{displayName}</h2>
+            <p className="text-gray-400 text-sm">Rank #{data.rank}</p>
+          </div>
         </div>
+        {isSelf && (
+          <button
+          className="px-4 py-2 bg-accent text-white rounded hover:bg-accent/80 transition cursor-pointer"
+          onClick={() => router.push(`/user`)}
+        >
+          Edit Profile
+        </button>
+        )}
       </div>
 
       <div className="grid grid-cols-3 gap-4 mb-8">

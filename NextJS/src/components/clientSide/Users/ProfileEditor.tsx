@@ -34,9 +34,9 @@ const UserProfileEditor = ({ settings }: { settings: SettingsWithUser }) => {
 
   return (
     <div className="space-y-4">
-      <div className="bg-zinc-800 p-4 rounded-xl border border-zinc-700">
+      <div className="bg-gray-800 p-4 rounded-xl border border-gray-700">
         <h2 className="text-lg font-bold text-white">Avatar</h2>
-        <p className="text-sm text-zinc-400 mb-2">Choose how your avatar appears on the site.</p>
+        <p className="text-sm text-gray-400 mb-2">Choose how your avatar appears on the site.</p>
 
         <div className="flex items-center gap-4">
           <Image
@@ -51,7 +51,7 @@ const UserProfileEditor = ({ settings }: { settings: SettingsWithUser }) => {
 
           <div className="flex gap-2">
             <button
-              className="bg-zinc-700 hover:bg-zinc-600 transition cursor-pointer text-white px-3 py-1 rounded"
+              className="bg-gray-700 hover:bg-gray-600 transition cursor-pointer text-white px-3 py-1 rounded"
               onClick={() => setShowPicker(true)}
             >
               Choose Emoticon

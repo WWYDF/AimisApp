@@ -2,10 +2,12 @@ import { notFound } from 'next/navigation';
 import { prisma } from '@/core/prisma';
 import PublicProfileClient from '@/components/clientSide/Users/PublicProfile';
 import { getEmotePath } from '@/core/utils/pathResolver';
+import { auth } from '@/components/serverSide/authenticate';
 
 export default async function UserProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const prams = await params;
   const { id } = prams;
+  const session = await auth();
 
   const user = await prisma.user.findUnique({
     where: { id },
@@ -46,5 +48,5 @@ export default async function UserProfilePage({ params }: { params: Promise<{ id
     avatar,
   };
 
-  return <PublicProfileClient data={profileData} />;
+  return <PublicProfileClient data={profileData} session={session} />;
 }
