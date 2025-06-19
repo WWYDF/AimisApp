@@ -33,7 +33,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
               className={`px-4 py-2 rounded-xl shadow-xl pointer-events-auto
                 ${toast.type === 'success' ? 'bg-green-500' : ''}
                 ${toast.type === 'error' ? 'bg-red-500' : ''}
-                ${toast.type === 'info' ? 'bg-darkerAccent' : ''}
+                ${toast.type === 'info' ? 'bg-accent-muted' : ''}
               `}
             >
               {toast.message}

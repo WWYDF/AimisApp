@@ -15,7 +15,7 @@ export default async function ProfileEditPage() {
     where: { discordId: session.user.id },
     include: {
       user: {
-        select: { avatar: true },
+        select: { avatar: true, displayName: true },
       },
     },
   })
