@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { auth } from '@/components/serverSide/authenticate'
 import UserProfileEditor from '@/components/clientSide/Users/ProfileEditor';
 import Link from 'next/link';
+import { emoticon } from '@/core/objects/emotes';
 
 export default async function ProfileEditPage() {
   const session = await auth();
@@ -15,7 +16,7 @@ export default async function ProfileEditPage() {
     where: { discordId: session.user.id },
     include: {
       user: {
-        select: { avatar: true, displayName: true },
+        select: { avatar: true, displayName: true, items: true },
       },
     },
   })
@@ -25,6 +26,13 @@ export default async function ProfileEditPage() {
       redirect(`/user/${session.user.id}`)
     )
   }
+
+  const ownedIds = new Set(settings.user.items.map((item) => item.itemId))
+
+  // Merge: Free emotes (no cost) + owned paid emotes
+  const availableAvatars = emoticon.filter(
+    (e) => e.cost === undefined || ownedIds.has(e.id)
+  )
 
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-8">
@@ -38,7 +46,7 @@ export default async function ProfileEditPage() {
         </Link>
       </div>
 
-      <UserProfileEditor settings={settings} />
+      <UserProfileEditor settings={settings} availableAvatars={availableAvatars} />
     </div>
   )
 }

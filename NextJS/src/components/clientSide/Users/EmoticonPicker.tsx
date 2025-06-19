@@ -6,9 +6,11 @@ import { motion } from 'framer-motion'
 const EmoticonPickerModal = ({
   onSelect,
   onClose,
+  availableAvatars,
 }: {
   onSelect: (name: string) => void
   onClose: () => void
+  availableAvatars: { id: string; label: string; ext: string }[]
 }) => {
   return (
     <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center">
@@ -17,11 +19,12 @@ const EmoticonPickerModal = ({
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
         transition={{ duration: 0.2 }}
-        className="bg-zinc-900 p-6 rounded-xl max-w-2xl w-full space-y-4 border border-zinc-700"
+        className="bg-zinc-900 p-6 rounded-xl max-w-2xl w-full space-y-2 border border-zinc-700"
       >
-        <h2 className="text-xl font-bold text-white">Pick an Emoticon</h2>
+        <h2 className="text-xl font-bold text-white">Pick an Avatar</h2>
+        <h2 className="text-base italic text-subtle mb-4">You can aquire more from the shop!</h2>
         <div className="grid grid-cols-6 gap-4 max-h-[60vh] overflow-y-auto pr-1">
-          {emoticon.map(({ id, label }) => (
+          {availableAvatars.map(({ id, label }) => (
             <button
               key={id}
               onClick={() => onSelect(id)}

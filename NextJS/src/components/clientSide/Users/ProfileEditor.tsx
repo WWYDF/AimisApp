@@ -15,7 +15,10 @@ type SettingsWithUser = UserSettings & {
   user: Pick<User, 'avatar' | 'displayName'>
 }
 
-const UserProfileEditor = ({ settings }: { settings: SettingsWithUser }) => {
+const UserProfileEditor = ({ settings, availableAvatars }: {
+  settings: SettingsWithUser,
+  availableAvatars: { id: string; label: string; ext: string }[]
+}) => {
   const [showPicker, setShowPicker] = useState(false)
   const [showDiscordWarning, setShowDiscordWarning] = useState(false)
   const [avatar, setAvatar] = useState(settings.emoteAvatar)
@@ -113,7 +116,7 @@ const UserProfileEditor = ({ settings }: { settings: SettingsWithUser }) => {
       {/* Modals */}
       {showPicker && 
         <AnimatePresence>
-          <EmoticonPickerModal onSelect={handleSaveAvatar} onClose={() => setShowPicker(false)} />
+          <EmoticonPickerModal onSelect={handleSaveAvatar} onClose={() => setShowPicker(false)} availableAvatars={availableAvatars} />
         </AnimatePresence>
       }
       {showDiscordWarning && (

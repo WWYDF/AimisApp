@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { signIn, useSession } from 'next-auth/react'
-import { ArrowSquareOut, CaretDown, ChartBar, House, UserCircle } from 'phosphor-react'
+import { ArrowSquareOut, CaretDown, ChartBar, House, ShoppingCart, UserCircle } from 'phosphor-react'
 import { NavItems, NavLinkItem } from "@/core/objects/NavItems";
 import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from "framer-motion";
@@ -124,6 +124,18 @@ export default function Navbar() {
 
           return null;
         })}
+
+        {/* Store (Baked) */}
+        <button
+          className="flex items-center gap-1 hover:text-accent cursor-pointer transition-colors justify-between"
+          onClick={() => {
+            router.push('/shop')
+            setOpenDropdown(null);
+          }}
+        >
+          <ShoppingCart size={22} />
+          <span className="font-medium">Shop</span>
+        </button>
       </div>
 
       {/* Right: Auth */}

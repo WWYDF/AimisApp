@@ -21,6 +21,7 @@ model User {
   settings              UserSettings?
   hidden                Boolean               @default(false)
   badges                Badge[]
+  items                 OwnedItems[]
 
   // Game Stuff
   points                Int                   @default(0)
@@ -52,6 +53,17 @@ model Badge {
   color                 String?
 
   users                 User[]
+}
+
+model OwnedItems {
+  id                    Int                   @id @default(autoincrement())
+  itemId                String
+  user                  User                  @relation(fields: [discordId], references: [id], onDelete: Cascade)
+  
+  discordId             String
+  boughtAt              DateTime              @default(now())
+
+  @@unique([discordId, itemId])
 }
 
 model Completed {
