@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import ResultModal from './ResultModal'
-import { useConfetti } from '@/core/hooks/confetti'
+import { fullPageConfetti, useConfetti } from '@/core/hooks/confetti'
 import { useToast } from '../Toast'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -36,6 +36,7 @@ export default function TriviaClient({ triviaList, initialIndex }: TriviaClientP
 
   const toast = useToast()
   const fireConfetti = useConfetti()
+  const fireWinConfetti = fullPageConfetti()
   const currentQuestion = triviaList[questionIndex]
 
   const submitAnswer = async (choice: string) => {
@@ -96,7 +97,7 @@ export default function TriviaClient({ triviaList, initialIndex }: TriviaClientP
   if (gameOver) {
     const won = (questionIndex + 1) === triviaList.length
 
-    if (won) { fireConfetti() }
+    if (won) { fireWinConfetti() }
 
     return (
       <div className="max-w-xl mx-auto mt-10 text-white text-center space-y-4">

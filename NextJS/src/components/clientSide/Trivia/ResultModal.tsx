@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import { getCharacterPath } from '@/core/objects/characters'
+import { useEffect, useState } from 'react'
 
 interface ResultModalProps {
   isOpen: boolean
@@ -29,6 +30,26 @@ export default function ResultModal({
 }: ResultModalProps) {
   const cleanedName = (correct ? selected : correctAnswer).replace(/ Affinity$/, '');
   const imagePath = getCharacterPath(cleanedName);
+  const [displayPoints, setDisplayPoints] = useState(0)
+
+  useEffect(() => {
+    let frame: number
+    const duration = 1000 // ms
+    const start = performance.now()
+    const from = 0
+    const to = points
+  
+    const animate = (now: number) => {
+      const elapsed = now - start
+      const progress = Math.min(elapsed / duration, 1)
+      const current = Math.round(from + (to - from) * progress)
+      setDisplayPoints(current)
+      if (progress < 1) frame = requestAnimationFrame(animate)
+    }
+  
+    animate(start)
+    return () => cancelAnimationFrame(frame)
+  }, [points])
 
   return (
     <AnimatePresence>
@@ -75,7 +96,7 @@ export default function ResultModal({
                       : 'text-zinc-400'
                   }`}
                 >
-                  ({points === 0 ? `0 points` : `${points > 0 ? `+${points}` : points} points`})
+                  ({points === 0 ? `0 points` : `${points > 0 ? '+' : ''}${displayPoints} points`})
                 </motion.p>
               </div>
 
