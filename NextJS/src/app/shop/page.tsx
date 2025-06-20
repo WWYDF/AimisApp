@@ -6,14 +6,15 @@ import { redirect } from 'next/navigation';
 
 export default async function ShopPage() {
   const session = await auth();
+
+  if (!session) redirect('/user/login');
+  
   const user = await prisma.user.findUnique({
     where: { id: session?.user.id },
     include: { items: true }
   });
 
-  if (!session || !user) {
-    redirect('/')
-  }
+  if (!user) redirect('/error/500'); // fuck it idc
 
   // IDs of owned items
   const ownedIds = new Set(user.items.map((i) => i.itemId))

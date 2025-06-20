@@ -101,6 +101,7 @@ model PointsHistory {
   points                Int                   @default(0)
   discordId             String
   user                  User                  @relation(fields: [discordId], references: [id], onDelete: Cascade)
+  season                Int                   @default(1)
 
   @@unique([createdAt, discordId])
 }

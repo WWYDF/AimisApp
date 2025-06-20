@@ -6,7 +6,7 @@ import { isToday } from "date-fns";
 
 export default async function TriviaPage() {
   const session = await auth()
-  if (!session) redirect('/')
+  if (!session) redirect('/user/login')
 
   const userId = session.user.id
 
