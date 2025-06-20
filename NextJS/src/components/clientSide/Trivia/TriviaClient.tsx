@@ -6,6 +6,7 @@ import ResultModal from './ResultModal'
 import { fullPageConfetti, useConfetti } from '@/core/hooks/confetti'
 import { useToast } from '../Toast'
 import { motion, AnimatePresence } from 'framer-motion'
+import { usePlausible } from 'next-plausible'
 
 interface TriviaEntry {
   id: number
@@ -39,9 +40,11 @@ export default function TriviaClient({ triviaList, initialIndex }: TriviaClientP
   const fireConfetti = useConfetti()
   const fireWinConfetti = fullPageConfetti()
   const currentQuestion = triviaList[questionIndex]
+  const plausible = usePlausible()
 
   const submitAnswer = async (choice: string) => {
     if (!currentQuestion) return
+    plausible('TriviaGuess')
 
     setSelected(choice)
 
@@ -63,6 +66,7 @@ export default function TriviaClient({ triviaList, initialIndex }: TriviaClientP
     setHasViewedHint(false)
 
     if (data.correct) {
+      plausible('TriviaCorrect')
       fireConfetti()
       console.log(questionIndex);
       if (questionIndex + 1 === 5) { setWin(true) }

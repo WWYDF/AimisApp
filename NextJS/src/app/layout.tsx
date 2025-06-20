@@ -36,7 +36,7 @@ export default function RootLayout({
       <head />
       <body className={`${inter.className} min-h-screen flex flex-col`}>
         <main className="flex-grow">
-        <PlausibleProvider domain="aimis.app">
+        <PlausibleProvider domain="aimis.app" customDomain='https://analytics.clarioncorp.net'>
           <AuthProvider>
             <Navbar />
               <ToastProvider>

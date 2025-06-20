@@ -1,6 +1,7 @@
 'use client';
 import renderBadges from '@/components/clientSide/BadgePill';
 import { Badge } from '@prisma/client';
+import { usePlausible } from 'next-plausible';
 import Link from 'next/link';
 import { Flame } from 'phosphor-react';
 import { useEffect, useState } from 'react';
@@ -18,11 +19,14 @@ type LeaderboardEntry = {
 
 export default function LeaderboardPage() {
   const [data, setData] = useState<LeaderboardEntry[]>([]);
+  const plausible = usePlausible()
 
   useEffect(() => {
     fetch('/api/leaderboards')
       .then(res => res.json())
       .then(setData);
+
+    plausible('leaderboard')
   }, []);
 
   return (
