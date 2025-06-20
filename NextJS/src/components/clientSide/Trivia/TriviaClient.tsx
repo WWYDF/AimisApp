@@ -121,7 +121,7 @@ export default function TriviaClient({ triviaList, initialIndex }: TriviaClientP
   }
 
   return (
-    <div className="max-w-xl mx-auto mt-10 text-white text-center space-y-4">
+    <div className="max-w-sm md:max-w-xl mx-auto mt-10 text-white text-center space-y-4">
       {currentQuestion.image && currentQuestion.hint && !hasViewedHint ? (
         <div className="relative w-full max-w-md mx-auto">
           <div className="bg-zinc-900 border border-zinc-700 p-4 rounded-lg">

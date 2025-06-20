@@ -4,7 +4,7 @@ export default function renderBadges(badges: { id: string; name: string; color?:
   if (!badges || badges.length === 0) return null
 
   return (
-    <div className="flex flex-wrap gap-2 ml-1">
+    <div className="flex flex-wrap gap-2 md:ml-1">
       {badges.map((badge) => (
         <div
           key={badge.id}

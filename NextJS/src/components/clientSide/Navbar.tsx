@@ -28,7 +28,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="w-full h-16 bg-[#0d111e] border-b border-zinc-800 shadow-lg flex items-center p-4 sticky top-0 z-100" ref={navRef}>
+    <nav className="hidden md:flex w-full h-16 bg-[#0d111e] border-b border-zinc-800 shadow-lg items-center p-4 sticky top-0 z-100" ref={navRef}>
       {/* Left: Logo */}
       <button
         className="flex items-center gap-2 h-full cursor-pointer"

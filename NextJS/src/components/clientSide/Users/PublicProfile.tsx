@@ -74,11 +74,11 @@ export default function PublicProfileClient({ data, session }: Props) {
       <div className="grid grid-cols-3 gap-4 mb-8">
         <div className="bg-gray-800 rounded p-4 text-center">
           <p className="text-sm text-gray-400">Points</p>
-          <p className="text-xl font-semibold">{data.points}</p>
+          <p className="text-sm md:text-xl font-semibold">{data.points}</p>
         </div>
         <div className="bg-gray-800 rounded p-4 text-center flex flex-col items-center">
-          <p className="text-sm text-gray-400">Trivia Streak</p>
-          <div className="text-xl font-semibold flex items-center gap-1">
+          <p className="text-xs md:text-sm text-gray-400">Trivia Streak</p>
+          <div className="text-sm md:text-xl font-semibold flex items-center gap-1">
             {data.streakTrivia}
             {data.streakTrivia >= 10 && (
               <Flame
@@ -90,8 +90,8 @@ export default function PublicProfileClient({ data, session }: Props) {
           </div>
         </div>
         <div className="bg-gray-800 rounded p-4 text-center">
-          <p className="text-sm text-gray-400">Joined</p>
-          <p className="text-xl font-semibold">
+          <p className="text-xs md:text-sm text-gray-400">Joined</p>
+          <p className="text-sm md:text-xl font-semibold">
             {new Date(data.createdAt).toLocaleDateString()}
           </p>
         </div>

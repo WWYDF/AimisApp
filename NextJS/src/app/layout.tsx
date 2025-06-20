@@ -7,6 +7,7 @@ import Footer from '@/components/clientSide/Footer';
 import { ToastProvider } from '@/components/clientSide/Toast';
 import UptimeToast from '@/components/clientSide/UptimeKuma';
 import PlausibleProvider from 'next-plausible';
+import MobileNavbar from '@/components/clientSide/MobileNavbar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -39,9 +40,10 @@ export default function RootLayout({
         <PlausibleProvider domain="aimis.app" customDomain='https://analytics.clarioncorp.net'>
           <AuthProvider>
             <Navbar />
-              <ToastProvider>
-                {children}
-              </ToastProvider>
+            <MobileNavbar />
+            <ToastProvider>
+              {children}
+            </ToastProvider>
           </AuthProvider>
           <UptimeToast />
         </PlausibleProvider>
