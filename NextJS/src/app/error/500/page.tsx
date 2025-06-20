@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 
-export default function Error({ error }: { error: Error }) {
+export default function Error() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center text-white text-center px-4">
       <h1 className="text-5xl font-bold mb-2 text-red-500">500</h1>
