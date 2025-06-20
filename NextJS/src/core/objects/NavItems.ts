@@ -33,7 +33,7 @@ export const NavItems: NavItem[] = [
       },
       {
         type: "link",
-        name: "Omegle",
+        name: "Omegle (Wordle)",
         icon: "/i/games/omegle.png",
         href: "#",
         description: "Coming Soon",
