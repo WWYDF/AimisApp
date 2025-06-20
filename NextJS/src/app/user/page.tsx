@@ -4,6 +4,22 @@ import { auth } from '@/components/serverSide/authenticate'
 import UserProfileEditor from '@/components/clientSide/Users/ProfileEditor';
 import Link from 'next/link';
 import { emoticon } from '@/core/objects/emotes';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com'),
+  title: {
+    default: `Your Profile`,
+    template: `%s | AiMi's App`
+  },
+  description: "Please sign in to edit your profile settings here.",
+  icons: { // Favicon
+   icon: '/i/misc/logo.webp'
+  },
+  openGraph: {  // The preview image for Discord, Twitter, etc.
+    images: []
+  },
+}
 
 export default async function ProfileEditPage() {
   const session = await auth();

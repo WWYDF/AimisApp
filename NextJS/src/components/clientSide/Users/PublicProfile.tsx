@@ -11,7 +11,7 @@ import { Badge } from '@prisma/client';
 type Props = {
   data: {
     id: string;
-    avatar?: string | null;
+    avatar: string;
     displayName?: string | null;
     nameOverride?: string | null;
     points: number;
@@ -45,6 +45,7 @@ export default function PublicProfileClient({ data, session }: Props) {
 
   return (
     <div className="max-w-4xl mx-auto p-6 text-white">
+      <meta property="og:image" content={data.avatar} />
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-4">
           <img

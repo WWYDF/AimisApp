@@ -13,12 +13,12 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com'),
   title: {
-    default: ``,
-    template: `%s | Aimi's App`
+    default: `AiMi's App`,
+    template: `%s | AiMi's App`
   },
   description: "Quirky games for Omega Strikers",
   icons: { // Favicon
-   icon: '/i/misc/icon.png'
+   icon: '/i/misc/logo.webp'
   },
   openGraph: {  // The preview image for Discord, Twitter, etc.
     images: []
@@ -32,6 +32,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <meta property="og:image" content="https://aimis.app/i/misc/logo.webp" />
       <head />
       <body className={`${inter.className} min-h-screen flex flex-col`}>
         <main className="flex-grow">

@@ -3,6 +3,22 @@ import { auth } from "@/components/serverSide/authenticate";
 import { redirect } from "next/navigation";
 import { prisma } from "@/core/prisma"
 import { isToday } from "date-fns";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com'),
+  title: {
+    default: `Trivia`,
+    template: `%s | AiMi's App`
+  },
+  description: "Answer OS-themed questions to earn points! Gamble your points with double-or-negative!",
+  icons: { // Favicon
+   icon: '/i/misc/logo.webp'
+  },
+  openGraph: {  // The preview image for Discord, Twitter, etc.
+    images: []
+  },
+}
 
 export default async function TriviaPage() {
   const session = await auth()

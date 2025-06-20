@@ -2,7 +2,23 @@ import ShopClient from '@/components/clientSide/Shop/ShopClient';
 import { auth } from '@/components/serverSide/authenticate'
 import { shopItems } from '@/core/objects/shopItems';
 import { prisma } from '@/core/prisma'
+import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
+
+export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://example.com'),
+  title: {
+    default: `Shop`,
+    template: `%s | AiMi's App`
+  },
+  description: "Spend your points in the shop to acquire some cosmetics.",
+  icons: { // Favicon
+   icon: '/i/misc/logo.webp'
+  },
+  openGraph: {  // The preview image for Discord, Twitter, etc.
+    images: []
+  },
+}
 
 export default async function ShopPage() {
   const session = await auth();

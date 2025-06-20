@@ -3,6 +3,32 @@ import { prisma } from '@/core/prisma';
 import PublicProfileClient from '@/components/clientSide/Users/PublicProfile';
 import { getEmotePath } from '@/core/utils/pathResolver';
 import { auth } from '@/components/serverSide/authenticate';
+import { Metadata } from 'next';
+
+// Generate metadata dynamically using data
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const targetUser = await prisma.user.findUnique({ where: { id: params.id }, include: { settings: true } });
+
+  if (!targetUser) {
+    return {
+      title: `Error 404`,
+      description: `The provided ID does not resolve to an active user. Sorry about that.`,
+    };
+  }
+
+  const rankedUsers = await prisma.user.findMany({
+    orderBy: { points: 'desc' },
+    select: { id: true },
+  });
+
+  const rank = rankedUsers.findIndex((u: any) => u.id === targetUser.id) + 1;
+  const createdAt = targetUser.createdAt.toISOString();
+
+  return {
+    title: `User '${targetUser.settings?.nameOverride ? targetUser.settings?.nameOverride : targetUser.displayName}'`,
+    description: `Rank: #${rank}\nPoints: ${targetUser.points}\nJoined: ${new Date(createdAt).toLocaleDateString()}`,
+  };
+}
 
 export default async function UserProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const prams = await params;
@@ -32,7 +58,7 @@ export default async function UserProfilePage({ params }: { params: Promise<{ id
 
   const rank = rankedUsers.findIndex((u: any) => u.id === user.id) + 1;
 
-  const avatar = (getEmotePath(settings?.emoteAvatar) ?? user.avatar);
+  const avatar = (getEmotePath(settings?.emoteAvatar) ?? user.avatar) ?? '/i/emoticon/DefaultThumbsUp.png';
   const nameOverride = settings?.nameOverride || null;
 
   const profileData = {
