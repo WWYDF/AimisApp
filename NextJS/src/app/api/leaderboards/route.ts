@@ -4,6 +4,7 @@ import { getEmotePath } from '@/core/utils/pathResolver';
 
 export async function GET() {
   const users = await prisma.user.findMany({
+    where: { hidden: false, points: { not: 0 } },
     orderBy: { points: 'desc' },
     take: 50,
     select: {
