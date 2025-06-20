@@ -143,7 +143,7 @@ export default function TriviaClient({ triviaList, initialIndex }: TriviaClientP
         <p>{currentQuestion.question}</p>
       </div>
 
-      {currentQuestion.choices.map((choice) => {
+      {currentQuestion.choices.map((choice, index) => {
         const isSelected = selected === choice
         const isCorrect = result?.correctAnswer === choice
 
@@ -161,7 +161,7 @@ export default function TriviaClient({ triviaList, initialIndex }: TriviaClientP
 
         return (
           <button
-            key={choice}
+            key={`${choice}-${index}`}
             onClick={() => submitAnswer(choice)}
             disabled={!!selected}
             className={`w-full px-4 py-2 rounded cursor-pointer border transition ${buttonClass}`}

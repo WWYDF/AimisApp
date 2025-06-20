@@ -41,19 +41,25 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Not enough points' }, { status: 403 })
   }
 
-  // Remove points and add item. If one fails, they both fail.
-  await prisma.$transaction([
-    prisma.user.update({
-      where: { id: session.user.id },
-      data: { points: { decrement: item.cost } },
-    }),
-    prisma.ownedItems.create({
-      data: {
-        itemId: item.id,
-        discordId: session.user.id,
-      },
-    }),
-  ])
+  // Remove points and add item.
+  const newge = await prisma.user.update({
+    where: { id: session.user.id },
+    data: { points: { decrement: item.cost } },
+  })
+
+  await prisma.ownedItems.create({
+    data: {
+      itemId: item.id,
+      discordId: session.user.id,
+    },
+  })
+
+  await prisma.pointsHistory.create({
+    data: {
+      discordId: session.user.id,
+      points: newge.points
+    }
+  })
 
   return NextResponse.json({ success: true })
 }

@@ -5,7 +5,7 @@ import { signIn } from 'next-auth/react'
 
 export default function LogoutPage() {
   useEffect(() => {
-    signIn('discord')
+    signIn('discord', { callbackUrl: '/user' })
   }, [])
 
   return (

@@ -97,15 +97,6 @@ export const TriviaTier1: TriviaQuestion[] = [
   },
 
   {
-    id: 16,
-    question: "Which 'Spark' increases range?",
-    type: "multiple",
-    choices: ["Strength", "Focus", "Leadership", "There isn't one"],
-    correct: "There isn't one",
-    tier: 1
-  },
-
-  {
     id: 17,
     question: "'Stacks on Stacks' resets in-between sets",
     type: "boolean",
@@ -559,6 +550,15 @@ export const TriviaTier1: TriviaQuestion[] = [
   },
 
   {
+    id: 16,
+    question: "Which 'Spark' increases range?",
+    type: "multiple",
+    choices: ["Strength", "Focus", "Leadership", "There isn't one"],
+    correct: "There isn't one",
+    tier: 2
+  },
+
+  {
     id: 19,
     question: "Who is 'Team Player' associated with?",
     type: "multiple",
@@ -597,16 +597,6 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Asher and Juno", "Juliette and X", "Rune and Kai", "Atlas and Luna"],
     correct: "Atlas and Luna",
-    tier: 2
-  },
-
-  {
-    id: 50,
-    question: "Which title is unlocked via X's affinity?",
-    type: "multiple",
-    choices: ["Exceptional", "Excessive", "Explosive", "X Factor"],
-    correct: "Excessive",
-    image: "/i/character/timeline/X.webp",
     tier: 2
   },
 
@@ -816,7 +806,7 @@ export const TriviaTier1: TriviaQuestion[] = [
 
   {
     id: 22,
-    question: "What orb-based awakening reduced cooldowns?",
+    question: "What orb-based awakening reduces cooldowns?",
     type: "multiple",
     choices: ["Orb Dancer", "Orb Focus", "Orb Catalyst", "Orb Ponderer"],
     correct: "Orb Ponderer",
@@ -1103,6 +1093,16 @@ export const TriviaTier1: TriviaQuestion[] = [
     type: "multiple",
     choices: ["Juliette Affinity", "Octavia Affinity", "Kai Affinity", "Zentaro Affinity"],
     correct: "Juliette Affinity",
+    tier: 4
+  },
+
+  {
+    id: 50,
+    question: "Which title is unlocked via X's affinity?",
+    type: "multiple",
+    choices: ["Exceptional", "Excessive", "Explosive", "X Factor"],
+    correct: "Excessive",
+    image: "/i/character/timeline/X.webp",
     tier: 4
   },
 

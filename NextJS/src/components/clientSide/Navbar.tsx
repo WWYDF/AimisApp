@@ -159,7 +159,7 @@ export default function Navbar() {
             />
           </Link>
         ) : (
-          <button onClick={() => signIn('discord')}>
+          <button onClick={() => signIn('discord', { callbackUrl: '/user' })}>
             <UserCircle size={32} className="text-zinc-400 hover:text-white transition cursor-pointer" />
           </button>
         )}

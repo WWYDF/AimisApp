@@ -17,8 +17,9 @@ export default async function TriviaPage() {
 
   if (lastComp && isToday(lastComp.completedAt)) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex flex-col items-center justify-center text-center space-y-4">
         <h1 className="text-4xl font-bold">You have already played today!</h1>
+        <h3 className="text-xl">Come back tomorrow for more rewards!</h3>
       </div>
     )
   }

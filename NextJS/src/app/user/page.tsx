@@ -31,7 +31,9 @@ export default async function ProfileEditPage() {
 
   // Merge: Free emotes (no cost) + owned paid emotes
   const availableAvatars = emoticon.filter(
-    (e) => e.cost === undefined || ownedIds.has(e.id)
+    (e) =>
+      !e.disabled && // exclude disabled ones
+      (e.cost === undefined || ownedIds.has(e.id))
   )
 
   return (
