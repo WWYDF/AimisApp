@@ -6,8 +6,10 @@ import { auth } from '@/components/serverSide/authenticate';
 import { Metadata } from 'next';
 
 // Generate metadata dynamically using data
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const targetUser = await prisma.user.findUnique({ where: { id: params.id }, include: { settings: true } });
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const prams = await params;
+  const { id } = prams;
+  const targetUser = await prisma.user.findUnique({ where: { id }, include: { settings: true } });
 
   if (!targetUser) {
     return {
